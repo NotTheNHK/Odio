@@ -7,25 +7,25 @@
 
 /// The possible repeat behavior of `OdioPlayer`.
 public enum RepeatMode {
-  /// Repeats playback never, playback will occur once.
-  case never
+	/// Repeats playback never, playback will occur once.
+	case never
 
-  /// Repeats playback the specified number of times, playback will occur at least once.
-  case repeating(UInt = 0)
+	/// Repeats playback the specified number of times, playback will occur at least once.
+	case repeating(UInt = 0)
 
-  /// Indefinitely plays back audio.
-  case loop
+	/// Indefinitely plays back audio.
+	case loop
 
-  /// Convert `RepeatMode` case into Integer.
-  /// Sets `numberOfLoops` of `AVAudioPlayer` to the specified number.
-  func numberOfLoops() -> Int {
-    switch self {
-    case .never:
-      0
-    case .repeating(let count):
-      Int(count)
-    case .loop:
-      -1
-    }
-  }
+	/// Convert `RepeatMode` case into Integer.
+	/// Sets `numberOfLoops` of `AVAudioPlayer` to the specified number.
+	func numberOfLoops() -> Int {
+		switch self {
+		case .never:
+			0
+		case .repeating(let count):
+			Int(count)
+		case .loop:
+			-1
+		}
+	}
 }

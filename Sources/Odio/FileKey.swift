@@ -23,5 +23,5 @@
 /// ...
 /// ```
 public struct FileKey {
-  init() {}
+	init() {}
 }

@@ -13,18 +13,39 @@ import AVFoundation
 ///   - bundle: The bundle to retrieve the file from.
 /// - Returns: An instance of `AVAudioPlayer` with the contents of the file, if an error occured `nil`.
 func createPlayer(name: String, bundle: Bundle = .main) -> AVAudioPlayer? {
-  do {
-    guard let url = bundle.url(forResource: name, withExtension: nil) else {
-      throw OdioError(errorDescription: "File: \(name) not found in bundle: \(bundle)")
-    }
+	do {
+		guard
+			let url = bundle.url(forResource: name, withExtension: nil)
+		else { throw OdioError(errorDescription: "File: \(name) not found in bundle: \(bundle)") }
 
-    let player = try AVAudioPlayer(contentsOf: url)
+		let player = try AVAudioPlayer(contentsOf: url)
 
-    player.prepareToPlay()
-    return player
+		player.prepareToPlay()
+		return player
 
-  } catch {
-    errorLogger.error("\(error.localizedDescription)")
-    return nil
-  }
+	} catch {
+		errorLogger.error("\(error.localizedDescription)")
+		return nil
+	}
+}
+
+/// Creates an AVAudioPlayer from audio data.
+/// - Parameters:
+/// 	- data: The audio data to play.
+/// - Returns: An instance of `AVAudioPlayer` with the contents of the file, if an error occured `nil`.
+func createPlayer(data: Data?) -> AVAudioPlayer? {
+	do {
+		guard
+			let data
+		else { throw OdioError(errorDescription: "Parameter `data` was nil") }
+
+		let player = try AVAudioPlayer(data: data)
+
+		player.prepareToPlay()
+		return player
+
+	} catch {
+		errorLogger.error("\(error.localizedDescription)")
+		return nil
+	}
 }
