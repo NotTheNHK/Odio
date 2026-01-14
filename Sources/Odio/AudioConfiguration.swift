@@ -9,8 +9,8 @@ import Foundation
 
 public typealias AudioConfiguration = OdioConfiguration
 
-/// The OdioPlayer's configuration.
-public struct OdioConfiguration: Sendable, Equatable, Hashable {
+/// A type who specifies the characteristics of an `OdioPlayer` instance.
+public struct OdioConfiguration: Hashable {
 	/// The speed at which playback occurs.
 	public var speed: Float
 

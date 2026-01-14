@@ -40,6 +40,20 @@ public struct OdioPlayer {
 		}
 
 	/// - Parameters:
+	///   - fileName: The name of an audio file.
+	///   - configuration: The configuration to use.
+	///   - bundle: The bundle to retrieve the file from.
+	public init(
+		for fileName: String,
+		configuration: AudioConfiguration,
+		from bundle: Bundle = .main) {
+			self.player = createPlayer(name: fileName, bundle: bundle)
+			self.speed = configuration.speed
+			self.delay = configuration.delay
+			self.repeatMode = configuration.repeatMode
+		}
+
+	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
@@ -58,6 +72,20 @@ public struct OdioPlayer {
 		}
 
 	/// - Parameters:
+	///   - keyPath: A key path to a specific resulting value representing an audio file.
+	///   - configuration: The configuration to use.
+	///   - bundle: The bundle to retrieve the file from.
+	public init(
+		from keyPath: KeyPath<FileKey, String>,
+		configuration: AudioConfiguration,
+		from bundle: Bundle = .main) {
+			self.player = createPlayer(name: FileKey()[keyPath: keyPath], bundle: bundle)
+			self.speed = configuration.speed
+			self.delay = configuration.delay
+			self.repeatMode = configuration.repeatMode
+		}
+
+	/// - Parameters:
 	///   - data: The audio data to play.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
@@ -73,12 +101,32 @@ public struct OdioPlayer {
 			self.repeatMode = repeatMode
 		}
 
+	/// - Parameters:
+	///   - data: The audio data to play.
+	///   - configuration: The configuration to use.
+	public init(
+		data: Data?,
+		configuration: AudioConfiguration) {
+			self.player = createPlayer(data: data)
+			self.speed = configuration.speed
+			self.delay = configuration.delay
+			self.repeatMode = configuration.repeatMode
+		}
+
 	/// Creates an empty `OdioPlayer` instance.
 	public init() {
 		self.player = nil
 		self.speed = 1
 		self.delay = 0
 		self.repeatMode = .never
+	}
+
+	/// Update the instance with the provided configuration.
+	/// - Parameter configuration: The configuration to update the instance to.
+	public mutating func update(with configuration: AudioConfiguration) {
+		speed = configuration.speed
+		delay = configuration.delay
+		repeatMode = configuration.repeatMode
 	}
 
 	/// Starts playback, if the player was previously stoped, resumes playback
@@ -91,7 +139,7 @@ public struct OdioPlayer {
 	/// odioPlayer()
 	/// ```
 	public func callAsFunction() {
-		guard let player = player else { return }
+		guard let player else { return }
 
 		player.enableRate = speed != 1 ? true : false
 		player.rate = speed
@@ -113,43 +161,5 @@ public struct OdioPlayer {
 	/// Resets the current audio playback timeline.
 	public func rewind() {
 		player?.currentTime = .zero
-	}
-}
-
-
-extension OdioPlayer {
-	public init(
-		for fileName: String,
-		configuration: AudioConfiguration,
-		from bundle: Bundle = .main) {
-		self.player = createPlayer(name: fileName, bundle: bundle)
-		self.speed = configuration.speed
-		self.delay = configuration.delay
-		self.repeatMode = configuration.repeatMode
-	}
-
-	public init(
-		from keyPath: KeyPath<FileKey, String>,
-		configuration: AudioConfiguration,
-		from bundle: Bundle = .main) {
-		self.player = createPlayer(name: FileKey()[keyPath: keyPath], bundle: bundle)
-		self.speed = configuration.speed
-		self.delay = configuration.delay
-		self.repeatMode = configuration.repeatMode
-	}
-
-	public init(
-		data: Data?,
-		configuration: AudioConfiguration) {
-			self.player = createPlayer(data: data)
-			self.speed = configuration.speed
-			self.delay = configuration.delay
-			self.repeatMode = configuration.repeatMode
-		}
-
-	mutating func updateWith(configuration: AudioConfiguration) {
-		speed = configuration.speed
-		delay = configuration.delay
-		repeatMode = configuration.repeatMode
 	}
 }

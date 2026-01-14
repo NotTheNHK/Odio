@@ -64,7 +64,8 @@ import SwiftUI
 @propertyWrapper
 public struct AudioPlayer: DynamicProperty {
 	/// The underlying `@State<OdioPlayer>` instance.
-	@State private var player: OdioPlayer
+	@State
+	private var player: OdioPlayer
 
 	/// The underlying value referenced by the `@AudioPlayer` instance.
 	///

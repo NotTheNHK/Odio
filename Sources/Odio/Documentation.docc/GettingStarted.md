@@ -5,7 +5,7 @@
 Odio offers two different approaches for interacting with its API.
 An imperative approach through the ``Odio/AudioPlayer`` property wrapper and
 a declarative approach through the different `audioFeedback` view methods.
-This article will give an overview of both approaches, starting with `AudioPlayer`.
+This article will give an overview of both approaches, starting with `@AudioPlayer`.
 
 ## Create an AudioPlayer
 
