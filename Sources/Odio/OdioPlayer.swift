@@ -115,3 +115,41 @@ public struct OdioPlayer {
 		player?.currentTime = .zero
 	}
 }
+
+
+extension OdioPlayer {
+	public init(
+		for fileName: String,
+		configuration: AudioConfiguration,
+		from bundle: Bundle = .main) {
+		self.player = createPlayer(name: fileName, bundle: bundle)
+		self.speed = configuration.speed
+		self.delay = configuration.delay
+		self.repeatMode = configuration.repeatMode
+	}
+
+	public init(
+		from keyPath: KeyPath<FileKey, String>,
+		configuration: AudioConfiguration,
+		from bundle: Bundle = .main) {
+		self.player = createPlayer(name: FileKey()[keyPath: keyPath], bundle: bundle)
+		self.speed = configuration.speed
+		self.delay = configuration.delay
+		self.repeatMode = configuration.repeatMode
+	}
+
+	public init(
+		data: Data?,
+		configuration: AudioConfiguration) {
+			self.player = createPlayer(data: data)
+			self.speed = configuration.speed
+			self.delay = configuration.delay
+			self.repeatMode = configuration.repeatMode
+		}
+
+	mutating func updateWith(configuration: AudioConfiguration) {
+		speed = configuration.speed
+		delay = configuration.delay
+		repeatMode = configuration.repeatMode
+	}
+}

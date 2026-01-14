@@ -6,7 +6,7 @@
 //
 
 /// The possible repeat behavior of `OdioPlayer`.
-public enum RepeatMode {
+public enum RepeatMode: Sendable, Equatable, Hashable {
 	/// Repeats playback never, playback will occur once.
 	case never
 

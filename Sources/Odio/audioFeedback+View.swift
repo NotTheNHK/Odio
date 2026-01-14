@@ -9,16 +9,14 @@ import SwiftUI
 
 // MARK: - Name-based ViewModifier's and view methods.
 
-// TODO: Check Behavior when fileName or Keypath change.
+// TODO: Create configuration overload.
 
 struct AudioOnTap: ViewModifier {
 	@AudioPlayer
 	private var audioPlayer
 
 	let name: String
-	let speed: Float
-	let delay: TimeInterval
-	let repeatMode: RepeatMode
+	let configuration: AudioConfiguration
 
 	func body(content: Content) -> some View {
 		content
@@ -28,12 +26,14 @@ struct AudioOnTap: ViewModifier {
 						audioPlayer.rewind()
 						audioPlayer()
 					})
-			.onAppear {
+			.chooseAvailableOnChange(of: name, initial: true) {
+				audioPlayer.end()
 				audioPlayer = OdioPlayer(
 					for: name,
-					at: speed,
-					after: delay,
-					repeatMode: repeatMode)
+					configuration: configuration)
+			}
+			.chooseAvailableOnChange(of: configuration) {
+				audioPlayer.updateWith(configuration: configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()
@@ -47,9 +47,7 @@ struct AudioOnChange<Value: Equatable>: ViewModifier {
 	private var audioPlayer
 
 	let name: String
-	let speed: Float
-	let delay: TimeInterval
-	let repeatMode: RepeatMode
+	let configuration: AudioConfiguration
 	let value: Value
 
 	func body(content: Content) -> some View {
@@ -58,12 +56,14 @@ struct AudioOnChange<Value: Equatable>: ViewModifier {
 				audioPlayer.rewind()
 				audioPlayer()
 			}
-			.onAppear {
+			.chooseAvailableOnChange(of: name, initial: true) {
+				audioPlayer.end()
 				audioPlayer = OdioPlayer(
 					for: name,
-					at: speed,
-					after: delay,
-					repeatMode: repeatMode)
+					configuration: configuration)
+			}
+			.chooseAvailableOnChange(of: configuration) {
+				audioPlayer.updateWith(configuration: configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()
@@ -88,9 +88,7 @@ struct AudioConditionally: ViewModifier {
 	private var audioPlayer
 
 	let name: String
-	let speed: Float
-	let delay: TimeInterval
-	let repeatMode: RepeatMode
+	let configuration: AudioConfiguration
 	let shouldPlay: PlaybackTrigger
 
 	func body(content: Content) -> some View {
@@ -103,10 +101,14 @@ struct AudioConditionally: ViewModifier {
 			.onAppear {
 				audioPlayer = OdioPlayer(
 					for: name,
-					at: speed,
-					after: delay,
-					repeatMode: repeatMode)
+					configuration: configuration)
 				if shouldPlay() { audioPlayer() }
+			}
+			.chooseAvailableOnChange(of: name) {
+				audioPlayer.end()
+				audioPlayer = OdioPlayer(
+					for: name,
+					configuration: configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()
@@ -131,9 +133,10 @@ extension View {
 		modifier(
 			AudioOnTap(
 				name: fileName,
-				speed: speed,
-				delay: delay,
-				repeatMode: repeatMode))
+				configuration: .init(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode)))
 	}
 
 	/// Plays audio when `trigger` changes.
@@ -153,9 +156,10 @@ extension View {
 		modifier(
 			AudioOnChange(
 				name: fileName,
-				speed: speed,
-				delay: delay,
-				repeatMode: repeatMode,
+				configuration: .init(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode),
 				value: trigger))
 	}
 
@@ -176,9 +180,10 @@ extension View {
 		modifier(
 			AudioConditionally(
 				name: fileName,
-				speed: speed,
-				delay: delay,
-				repeatMode: repeatMode,
+				configuration: .init(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode),
 				shouldPlay: .init(condition: shouldPlay)))
 	}
 
@@ -197,9 +202,10 @@ extension View {
 		modifier(
 			AudioOnTap(
 				name: FileKey()[keyPath: keyPath],
-				speed: speed,
-				delay: delay,
-				repeatMode: repeatMode))
+				configuration: .init(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode)))
 	}
 
 	/// Plays audio when `trigger` changes.
@@ -219,9 +225,10 @@ extension View {
 		modifier(
 			AudioOnChange(
 				name: FileKey()[keyPath: keyPath],
-				speed: speed,
-				delay: delay,
-				repeatMode: repeatMode,
+				configuration: .init(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode),
 				value: trigger))
 	}
 
@@ -242,25 +249,24 @@ extension View {
 		modifier(
 			AudioConditionally(
 				name: FileKey()[keyPath: keyPath],
-				speed: speed,
-				delay: delay,
-				repeatMode: repeatMode,
+				configuration: .init(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode),
 				shouldPlay: .init(condition: shouldPlay)))
 	}
 }
 
 // MARK: - Data-based ViewModifier's and view methods.
 
-public struct AudioDataOnTap: ViewModifier {
+struct AudioDataOnTap: ViewModifier {
 	@AudioPlayer
 	private var audioPlayer
 
 	let data: Data?
-	let speed: Float
-	let delay: TimeInterval
-	let repeatMode: RepeatMode
+	let configuration: AudioConfiguration
 
-	public func body(content: Content) -> some View {
+	func body(content: Content) -> some View {
 		content
 			.simultaneousGesture(
 				TapGesture()
@@ -272,9 +278,7 @@ public struct AudioDataOnTap: ViewModifier {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
 					data: data,
-					at: speed,
-					after: delay,
-					repeatMode: repeatMode)
+					configuration: configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()
@@ -288,9 +292,7 @@ struct AudioDataOnChange<Value: Equatable>: ViewModifier {
 	private var audioPlayer
 
 	let data: Data?
-	let speed: Float
-	let delay: TimeInterval
-	let repeatMode: RepeatMode
+	let configuration: AudioConfiguration
 	let value: Value
 
 	func body(content: Content) -> some View {
@@ -303,9 +305,7 @@ struct AudioDataOnChange<Value: Equatable>: ViewModifier {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
 					data: data,
-					at: speed,
-					after: delay,
-					repeatMode: repeatMode)
+					configuration: configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()
@@ -330,9 +330,7 @@ struct AudioDataConditionally: ViewModifier {
 	private var audioPlayer
 
 	let data: Data?
-	let speed: Float
-	let delay: TimeInterval
-	let repeatMode: RepeatMode
+	let configuration: AudioConfiguration
 	let shouldPlay: PlaybackTrigger
 
 	func body(content: Content) -> some View {
@@ -345,18 +343,14 @@ struct AudioDataConditionally: ViewModifier {
 			.onAppear {
 				audioPlayer = OdioPlayer(
 					data: data,
-					at: speed,
-					after: delay,
-					repeatMode: repeatMode)
+					configuration: configuration)
 				if shouldPlay() { audioPlayer() }
 			}
 			.chooseAvailableOnChange(of: data) {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
 					data: data,
-					at: speed,
-					after: delay,
-					repeatMode: repeatMode)
+					configuration: configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()
@@ -381,9 +375,10 @@ extension View {
 		modifier(
 			AudioDataOnTap(
 				data: data,
-				speed: speed,
-				delay: delay,
-				repeatMode: repeatMode))
+				configuration: .init(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode)))
 	}
 
 	/// Plays audio when `trigger` changes.
@@ -403,9 +398,10 @@ extension View {
 		modifier(
 			AudioDataOnChange(
 				data: data,
-				speed: speed,
-				delay: delay,
-				repeatMode: repeatMode,
+				configuration: .init(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode),
 				value: trigger))
 	}
 
@@ -426,9 +422,11 @@ extension View {
 		modifier(
 			AudioDataConditionally(
 				data: data,
-				speed: speed,
-				delay: delay,
-				repeatMode: repeatMode,
-				shouldPlay: .init(condition: shouldPlay)))
+				configuration: .init(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode),
+				shouldPlay: .init(
+					condition: shouldPlay)))
 	}
 }
