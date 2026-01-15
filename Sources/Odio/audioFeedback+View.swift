@@ -240,8 +240,7 @@ extension View {
 	}
 }
 
-
-
+// TODO: Update `shouldPlay` description
 extension View {
 	/// Plays audio when `shouldPlay` is evaluated to true.
 	/// - Parameters:

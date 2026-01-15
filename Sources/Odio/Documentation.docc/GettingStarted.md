@@ -2,37 +2,36 @@
 
 ## Overview
 
-Odio offers two different approaches for interacting with its API.
+Odio offers two distinct paradigms for interacting with its API.
 An imperative approach through the ``Odio/AudioPlayer`` property wrapper and
-a declarative approach through the different `audioFeedback` view methods.
-This article will give an overview of both approaches, starting with `@AudioPlayer`.
+a declarative approach through the `audioFeedback` view methods.
+This article will give an overview of both paradigms, starting with `@AudioPlayer`.
 
 ## Create an AudioPlayer
+##### Initialize an instance of @AudioPlayer in one of the following three ways:
 
-Initialize an instance of ``Odio/AudioPlayer`` in of the following three ways.
-
-Initialize an instance with a `String` literal:
+With a `String` literal.
 ```swift
 @AudioPlayer("TapSound.mp3") private var audioPlayer
 ```
 
-Initialize an instance with a key path:
+With a key-path.
 ```swift
 @AudioPlayer(\.tap) private var audioPlayer
 ```
 
-Initialize an empty instance:
+As an empty instance.
 ```swift
 @AudioPlayer private var audioPlayer 
 ```
 
 ## Use AudioPlayer
-Control audio playback by interacting with an instance of `@AudioPlayer`.
+**Control audio playback by interacting with an instance of `@AudioPlayer`.**
 
-Here, the view is initialized with an empty `@AudioPlayer`,
-once the view appears and its `onAppear()` method is called,
-the appropriate `OdioPlayer` is initialized and assigned to `audioPlayer`.
-Then, playback occurs by calling the instance directly: `audioPlayer()`.
+The `@AudioPlayer` instance `audioPlayer` is initialized as empty.
+Once the view as a whole is initialized and appears
+`audioPlayer` is reinitialized with the audio file of the corresponding result. 
+Playback then begins by calling the instance's `callAsFunction` method.
 ```swift
 @AudioPlayer private var audioPlayer
 
@@ -53,50 +52,51 @@ var body: some View {
 
 ## Use audioFeedback
 
-The `audioFeedback` API consists of different view methods applicable in different scenarios:
+The `audioFeedback` API consists of overloads applicable in different scenarios:
 
-* ``SwiftUICore/View/audioFeedback(_:after:)-(String,_)`` Plays audio when the attached view is tapped.
+* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:)-(String,_,_,_)`` Plays audio when the attached view is tapped.
 
-* ``SwiftUICore/View/audioFeedback(_:after:shouldPlay:)-(String,_,_)`` Plays audio when shouldPlay is evaluated to true.
+* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:trigger:)-(String,_,_,_,_)`` Plays audio when the `trigger` value changes.
 
-* ``SwiftUICore/View/audioFeedback(_:after:trigger:)-(String,_,_)`` Plays audio when trigger changes.
+* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:shouldPlay:)-(String,_,_,_,_)`` Plays audio when `shouldPlay` is evaluated to true.
 
-All of these methods have a `KeyPath` overload, to learn more, see: <doc:UsingFileKey>.
+All of these methods have a `KeyPath`, `Data` and `AudioConfiguration` overload, to learn more, see: <doc:UsingFileKey>.
 
-### audioFeedback examples.
+### audioFeedback examples:
 
-``SwiftUICore/View/audioFeedback(_:after:)-(String,_)`` If the button is tapped plays the `OpenSound.mp3`:
+Plays the "OpenSound.mp3" sound effect whenever the button is tapped.
 ```swift
-var body: Some View {
-  ...
-  Button("Open") { ... }
-    .audioFeedback("OpenSound.mp3")
-  ...
+var body: some View {
+	Button("Open") { ... }
+		.audioFeedback("OpenSound.mp3")
 }
 ```
 
-``SwiftUICore/View/audioFeedback(_:after:shouldPlay:)-(String,_,_)`` Every time `count` changes evaluates the closure, if the closure retuns true plays `EvenSound.mp3`:
+Plays the "VolumeSound.mp3" sound effect each time the volume value changes.
 ```swift
-...
-var body: Some View {
-  VStack {
-    Button("+") { ... }
+@State private var volume = 0.5
 
-    Text("\(count)")
-
-    Button("-") { ... }
-  }
-  .audioFeedback("EvenSound.mp3") { count % 2 == 0 }
+var body: some View {
+	Stepper(
+		"Volume: \(volume.formatted(.percent))",
+		value: $volume,
+		in: 0...1,
+		step: 0.1)
+	.audioFeedback("VolumeSound.mp3", trigger: volume)
 }
 ```
 
-``SwiftUICore/View/audioFeedback(_:after:trigger:)-(String,_,_)`` Every time `count` changes plays `ChangeSound.mp3`:
+Plays the "VolumeLimit.mp3" sound only when the volume reaches its maximum value (100%).
 ```swift
-  ...
-  var body: Some View {
-    ...
-    Text("Current Count: \(count)") 
-      .audioFeedback("ChangeSound.mp3", trigger: count)
-    ...
-  }
-```
+@State private var volume = 0.5
+
+var body: some View {
+	Stepper(
+		"Volume: \(volume.formatted(.percent))",
+		value: $volume,
+		in: 0...1,
+		step: 0.1)
+	.audioFeedback("VolumeLimit.mp3") {
+		volume == 1
+	}
+}
