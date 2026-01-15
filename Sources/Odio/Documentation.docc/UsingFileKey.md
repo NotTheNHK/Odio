@@ -8,10 +8,13 @@ There are different approaches one can take to resolve these issues,
 one of these approaches is ``Odio/FileKey``.
 
 ## What is FileKey?
-At its essence, `FileKey`, offers an interface through which you reference files.
+At its essence, `FileKey` offers an interface through which you reference files.
 
 ## How to use FileKey?
-First, extend `FileKey` with new properties and attaching the @Entry macro to the variable declarations:
+
+### Create a FileKey
+
+First, extend `FileKey` with a new property and attach the @Entry macro to its declaration:
 ```swift
 extension FileKey {
   @Entry var tap = "TapSound.mp3"
@@ -19,32 +22,32 @@ extension FileKey {
 ```
 
 ### Using Filekey
-All of `Odio`'s API's that offer a version which reference a file through a string, 
-also offer a `FileKey` overload in the form of: `KeyPath<FileKey, String>`.
 
-Instead of using the (_ fileName: String) version:
+All `Odio` APIs that accept a `String` as the file name
+also provide an overload that accepts a `KeyPath` in the form of: `KeyPath<FileKey, String>`.
+
+Instead of using (_ fileName: String):
 ```swift
 @AudioPlayer("TapSound.mp3") private var audioPlayer
 ```
 
-Use the (_ keyPath: KeyPath<FileKey, String>)) version:
+Use (_ keyPath: KeyPath<FileKey, String>)):
 ```swift
 @AudioPlayer(\.tap) private var audioPlayer
 ```
 
-Instead of using the (_ fileName: String) version:
+Instead of using (_ fileName: String):
 ```swift
 var body: some View {
-  Button("+") { ... }
-    .audioFeedback("TapSound.mp3")
+	Button("Open") { ... }
+		.audioFeedback("TapSound.mp3")
 }
 ```
 
-Use the (_ keyPath: KeyPath<FileKey, String>) version:
+Use (_ keyPath: KeyPath<FileKey, String>):
 ```swift
-...
 var body: some View {
-  Button("+") { ... }
-    .audioFeedback(\.tap)
+	Button("Open") { ... }
+		.audioFeedback(\.tap)
 }
 ```
