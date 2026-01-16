@@ -24,9 +24,12 @@ public struct OdioConfiguration: Hashable {
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The delay before playback occurs.
 	///   - repeatMode: The playback repeat mode.
-	public init(speed: Float, delay: TimeInterval, repeatMode: RepeatMode) {
-		self.speed = speed
-		self.delay = delay
-		self.repeatMode = repeatMode
-	}
+	public init(
+		speed: Float,
+		delay: TimeInterval,
+		repeatMode: RepeatMode) {
+			self.speed = speed
+			self.delay = delay
+			self.repeatMode = repeatMode
+		}
 }

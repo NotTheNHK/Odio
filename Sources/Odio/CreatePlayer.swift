@@ -49,3 +49,11 @@ func createPlayer(data: Data?) -> AVAudioPlayer? {
 		return nil
 	}
 }
+
+func audioData(name: String, bundle: Bundle = .main) -> Data? {
+	guard
+		let url = bundle.url(forResource: name, withExtension: "")
+	else { return nil }
+
+	return try? Data(contentsOf: url)
+}

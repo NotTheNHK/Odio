@@ -22,7 +22,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnTap(
-				name: fileName,
+				data: audioData(
+					name: fileName),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
@@ -43,7 +44,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnTap(
-				name: FileKey()[keyPath: keyPath],
+				data: audioData(
+					name: FileKey()[keyPath: keyPath]),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
@@ -63,7 +65,7 @@ extension View {
 		repeatMode: RepeatMode = .never)
 	-> some View {
 		modifier(
-			AudioDataOnTap(
+			AudioOnTap(
 				data: data,
 				configuration: .init(
 					speed: speed,
@@ -81,7 +83,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnTap(
-				name: fileName,
+				data: audioData(
+					name: fileName),
 				configuration: configuration))
 	}
 
@@ -95,7 +98,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnTap(
-				name: FileKey()[keyPath: keyPath],
+				data: audioData(
+					name: FileKey()[keyPath: keyPath]),
 				configuration: configuration))
 	}
 
@@ -108,7 +112,7 @@ extension View {
 		configuration: AudioConfiguration)
 	-> some View {
 		modifier(
-			AudioDataOnTap(
+			AudioOnTap(
 				data: data,
 				configuration: configuration))
 	}
@@ -132,7 +136,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				name: fileName,
+				data: audioData(
+					name: fileName),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
@@ -156,7 +161,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				name: FileKey()[keyPath: keyPath],
+				data: audioData(
+					name: FileKey()[keyPath: keyPath]),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
@@ -179,7 +185,7 @@ extension View {
 		trigger: some Equatable)
 	-> some View {
 		modifier(
-			AudioDataOnChange(
+			AudioOnChange(
 				data: data,
 				configuration: .init(
 					speed: speed,
@@ -200,7 +206,7 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				name: fileName,
+				data: audioData(name: fileName),
 				configuration: configuration,
 				value: trigger))
 	}
@@ -217,7 +223,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				name: FileKey()[keyPath: keyPath],
+				data: audioData(
+					name: FileKey()[keyPath: keyPath]),
 				configuration: configuration,
 				value: trigger))
 	}
@@ -233,7 +240,7 @@ extension View {
 		trigger: some Equatable)
 	-> some View {
 		modifier(
-			AudioDataOnChange(
+			AudioOnChange(
 				data: data,
 				configuration: configuration,
 				value: trigger))
@@ -258,7 +265,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				name: fileName,
+				data: audioData(
+					name: fileName),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
@@ -282,7 +290,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				name: FileKey()[keyPath: keyPath],
+				data: audioData(
+					name: FileKey()[keyPath: keyPath]),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
@@ -305,7 +314,7 @@ extension View {
 		shouldPlay: () -> Bool)
 	-> some View {
 		modifier(
-			AudioDataConditionally(
+			AudioConditionally(
 				data: data,
 				configuration: .init(
 					speed: speed,
@@ -327,9 +336,11 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				name: fileName,
+				data: audioData(
+					name: fileName),
 				configuration: configuration,
-				shouldPlay: .init(condition: shouldPlay)))
+				shouldPlay: .init(
+					condition: shouldPlay)))
 	}
 
 	/// Plays audio when `shouldPlay` is evaluated to true.
@@ -344,9 +355,11 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				name: FileKey()[keyPath: keyPath],
+				data: audioData(
+					name: FileKey()[keyPath: keyPath]),
 				configuration: configuration,
-				shouldPlay: .init(condition: shouldPlay)))
+				shouldPlay: .init(
+					condition: shouldPlay)))
 	}
 
 	/// Plays audio when `shouldPlay` is evaluated to true.
@@ -360,9 +373,10 @@ extension View {
 		shouldPlay: () -> Bool)
 	-> some View {
 		modifier(
-			AudioDataConditionally(
+			AudioConditionally(
 				data: data,
 				configuration: configuration,
-				shouldPlay: .init(condition: shouldPlay)))
+				shouldPlay: .init(
+					condition: shouldPlay)))
 	}
 }

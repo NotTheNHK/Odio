@@ -11,7 +11,7 @@ struct AudioOnTap: ViewModifier {
 	@AudioPlayer
 	private var audioPlayer
 
-	let name: String
+	let data: Data?
 	let configuration: AudioConfiguration
 
 	func body(content: Content) -> some View {
@@ -22,10 +22,10 @@ struct AudioOnTap: ViewModifier {
 						audioPlayer.rewind()
 						audioPlayer()
 					})
-			.chooseAvailableOnChange(of: name, initial: true) {
+			.chooseAvailableOnChange(of: data, initial: true) {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
-					for: name,
+					data: data,
 					configuration: configuration)
 			}
 			.chooseAvailableOnChange(of: configuration) {
@@ -42,7 +42,7 @@ struct AudioOnChange<Value: Equatable>: ViewModifier {
 	@AudioPlayer
 	private var audioPlayer
 
-	let name: String
+	let data: Data?
 	let configuration: AudioConfiguration
 	let value: Value
 
@@ -52,10 +52,10 @@ struct AudioOnChange<Value: Equatable>: ViewModifier {
 				audioPlayer.rewind()
 				audioPlayer()
 			}
-			.chooseAvailableOnChange(of: name, initial: true) {
+			.chooseAvailableOnChange(of: data, initial: true) {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
-					for: name,
+					data: data,
 					configuration: configuration)
 			}
 			.chooseAvailableOnChange(of: configuration) {
@@ -69,115 +69,6 @@ struct AudioOnChange<Value: Equatable>: ViewModifier {
 
 
 struct AudioConditionally: ViewModifier {
-	struct PlaybackTrigger: Equatable {
-		let id = UUID()
-		let value: Bool
-
-		init(condition: () -> Bool) {
-			value = condition()
-		}
-
-		func callAsFunction() -> Bool { value }
-	}
-
-	@AudioPlayer
-	private var audioPlayer
-
-	let name: String
-	let configuration: AudioConfiguration
-	let shouldPlay: PlaybackTrigger
-
-	func body(content: Content) -> some View {
-		content
-			.chooseAvailableOnChange(of: shouldPlay) {
-				guard shouldPlay() else { return }
-				audioPlayer.rewind()
-				audioPlayer()
-			}
-			.onAppear {
-				audioPlayer = OdioPlayer(
-					for: name,
-					configuration: configuration)
-				if shouldPlay() { audioPlayer() }
-			}
-			.chooseAvailableOnChange(of: name) {
-				audioPlayer.end()
-				audioPlayer = OdioPlayer(
-					for: name,
-					configuration: configuration)
-			}
-			.chooseAvailableOnChange(of: configuration) {
-				audioPlayer.update(with: configuration)
-			}
-			.onDisappear {
-				audioPlayer.end()
-			}
-	}
-}
-
-
-struct AudioDataOnTap: ViewModifier {
-	@AudioPlayer
-	private var audioPlayer
-
-	let data: Data?
-	let configuration: AudioConfiguration
-
-	func body(content: Content) -> some View {
-		content
-			.simultaneousGesture(
-				TapGesture()
-					.onEnded {
-						audioPlayer.rewind()
-						audioPlayer()
-					})
-			.chooseAvailableOnChange(of: data, initial: true) {
-				audioPlayer.end()
-				audioPlayer = OdioPlayer(
-					data: data,
-					configuration: configuration)
-			}
-			.chooseAvailableOnChange(of: configuration) {
-				audioPlayer.update(with: configuration)
-			}
-			.onDisappear {
-				audioPlayer.end()
-			}
-	}
-}
-
-
-struct AudioDataOnChange<Value: Equatable>: ViewModifier {
-	@AudioPlayer
-	private var audioPlayer
-
-	let data: Data?
-	let configuration: AudioConfiguration
-	let value: Value
-
-	func body(content: Content) -> some View {
-		content
-			.chooseAvailableOnChange(of: value) {
-				audioPlayer.rewind()
-				audioPlayer()
-			}
-			.chooseAvailableOnChange(of: data, initial: true) {
-				audioPlayer.end()
-				audioPlayer = OdioPlayer(
-					data: data,
-					configuration: configuration)
-			}
-			.chooseAvailableOnChange(of: configuration) {
-				audioPlayer.update(with: configuration)
-			}
-			.onDisappear {
-				audioPlayer.end()
-			}
-	}
-}
-
-
-struct AudioDataConditionally: ViewModifier {
 	struct PlaybackTrigger: Equatable {
 		let id = UUID()
 		let value: Bool
