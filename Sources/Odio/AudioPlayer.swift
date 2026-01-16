@@ -20,35 +20,33 @@ import SwiftUI
 /// extension FileKey {
 ///   @Entry var tap = "TapSound.mp3"
 /// }
-///   ...
+///
+///	...
+///
 /// @AudioPlayer(\.tap) private var audioPlayer
 /// ```
 ///
-/// You can also initialize an empty `@AudioPlayer`, useful when the audio file to use is not known initially,
-/// for example, here is an excerpt from one of the `audioFeedback` methods implementation:
+/// You can also initialize an empty `@AudioPlayer`, this is useful when the audio file to be used is not initially known, e.g,
+/// here is an excerpt from one of the `audioFeedback` methods implementation:
 /// ```swift
-/// @AudioPlayer private var audioPlayer
+/// @AudioPlayer
+///	private var audioPlayer
 ///
-/// let name: String
-/// let delay: TimeInterval
+///	let name: String
 ///
-/// func body(content: Content) -> some View {
-///   content
-///     .simultaneousGesture(
-///       TapGesture()
-///         .onEnded { audioPlayer() })
-///     .onAppear { audioPlayer = OdioPlayer(for: name, after: delay) }
-///     .onDisappear { audioPlayer.end() }
-/// }
-/// ```
+///	...
 ///
-/// Initialize an instance of `@AudioPlayer`with playback delay,
-/// here, playback will occur after a delay of one second:
-/// ```swift
-/// @AudioPlayer(\.tap, after: 1.0) private var audioPlayer
+///	func body(content: Content) -> some View {
+///		content
+///			.onAppear {
+/// 			audioPlayer = OdioPlayer(
+///					for: name,
+///					configuration: configuration)
+///				if shouldPlay() { audioPlayer() }
+///			}
 ///
-/// var body: some View {
-///   Button("Tap Me") { audioPlayer() }
+///		...
+///
 /// }
 /// ```
 ///
@@ -60,6 +58,8 @@ import SwiftUI
 ///   Button("Play Sound") { audioPlayer() }
 /// }
 /// ```
+///	To learn more about customizing playback behavior, see: <doc:CustomizePlayback>.
+///
 @MainActor
 @propertyWrapper
 public struct AudioPlayer: DynamicProperty {
@@ -98,6 +98,20 @@ public struct AudioPlayer: DynamicProperty {
 		}
 
 	/// - Parameters:
+	///   - fileName: The name of an audio file.
+	///   - configuration: The configuration to use.
+	///   - bundle: The bundle to retrieve the file from.
+	public init(
+		_ fileName: String,
+		configuration: AudioConfiguration,
+		from bundle: Bundle = .main) {
+			self.player = OdioPlayer(
+				for: fileName,
+				configuration: configuration,
+				from: bundle)
+		}
+
+	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
@@ -115,6 +129,48 @@ public struct AudioPlayer: DynamicProperty {
 				after: delay,
 				repeatMode: repeatMode,
 				from: bundle)
+		}
+
+	/// - Parameters:
+	///   - keyPath: A key path to a specific resulting value representing an audio file.
+	///   - configuration: The configuration to use.
+	///   - bundle: The bundle to retrieve the file from.
+	public init(
+		_ keyPath: KeyPath<FileKey, String>,
+		configuration: AudioConfiguration,
+		from bundle: Bundle = .main) {
+			self.player = OdioPlayer(
+				from: keyPath,
+				configuration: configuration,
+				from: bundle)
+		}
+
+	/// - Parameters:
+	///   - data: The audio data to play.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
+	public init(
+		data: Data?,
+		at speed: Float = 1,
+		after delay: TimeInterval = 0,
+		repeatMode: RepeatMode = .never) {
+			self.player = OdioPlayer(
+				data: data,
+				at: speed,
+				after: delay,
+				repeatMode: repeatMode)
+		}
+
+	/// - Parameters:
+	///   - data: The audio data to play.
+	///   - configuration: The configuration to use.
+	public init(
+		data: Data?,
+		configuration: AudioConfiguration) {
+			self.player = OdioPlayer(
+				data: data,
+				configuration: configuration)
 		}
 
 	/// Creates an empty `@AudioPlayer` instance.
