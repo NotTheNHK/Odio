@@ -1,4 +1,4 @@
-# Safely and swiftly initialize audio players
+# Safely and Swiftly Initialize Audio Players
 
 ## Overview
 
@@ -10,9 +10,9 @@ one of these approaches is ``Odio/FileKey``.
 ## What is FileKey?
 At its essence, `FileKey` offers an interface through which you reference files.
 
-## How to use FileKey?
+## How to Use FileKey?
 
-### Create a FileKey
+### Creating a FileKey
 
 First, extend `FileKey` with a new property and attach the @Entry macro to its declaration:
 ```swift

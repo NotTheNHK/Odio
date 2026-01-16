@@ -1,4 +1,4 @@
-# Customize playback behavior
+# Customizing Playback Behavior
 
 ## Overview
 
@@ -27,7 +27,7 @@ with `repeatMode` set to `loop` won't stop playback, to take effect restart play
 - Note: The following examples only show initializer customization,
 each property can also be directly customized by referring to it directly.
 
-## Change playback speed
+## Changing Playback Speed
 Speed is specified as a floating point number
 where a value of `1.0` represents standard speed, `0.5` half the speed, `2.0` double the speed, etc. 
 
@@ -43,7 +43,7 @@ var body: some View {
 }
 ```
 
-## Adding delay to playback
+## Adding Delay to Playback
 Delay is always specified in seconds,
 can be a fraction of a second as well, e.g, `1.0`, `0.5` are both valid values.
 
@@ -58,7 +58,7 @@ var body: some View {
 }
 ```
 
-## Repeat playback
+## Repeating Playback
 Set a specific mode by selecting one of the `RepeatMode` cases.
 
 Pressing the button plays `audioPlayer`'s audio **twice**.

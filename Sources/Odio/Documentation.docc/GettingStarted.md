@@ -7,7 +7,7 @@ An imperative approach through the ``Odio/AudioPlayer`` property wrapper and
 a declarative approach through the `audioFeedback` view methods.
 This article will give an overview of both paradigms, starting with `@AudioPlayer`.
 
-## Create an AudioPlayer
+## Creating an AudioPlayer
 ##### Initialize an instance of @AudioPlayer in one of the following three ways:
 
 With a `String` literal.
@@ -25,7 +25,7 @@ As an empty instance.
 @AudioPlayer private var audioPlayer 
 ```
 
-## Use AudioPlayer
+## Using AudioPlayer
 **Control audio playback by interacting with an instance of `@AudioPlayer`.**
 
 The `@AudioPlayer` instance `audioPlayer` is initialized as empty.
@@ -50,7 +50,7 @@ var body: some View {
 }
 ```
 
-## Use audioFeedback
+## Using AudioFeedback
 
 The `audioFeedback` API consists of overloads applicable in different scenarios:
 

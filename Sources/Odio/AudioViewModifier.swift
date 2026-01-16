@@ -106,6 +106,9 @@ struct AudioConditionally: ViewModifier {
 					for: name,
 					configuration: configuration)
 			}
+			.chooseAvailableOnChange(of: configuration) {
+				audioPlayer.update(with: configuration)
+			}
 			.onDisappear {
 				audioPlayer.end()
 			}
@@ -134,6 +137,9 @@ struct AudioDataOnTap: ViewModifier {
 					data: data,
 					configuration: configuration)
 			}
+			.chooseAvailableOnChange(of: configuration) {
+				audioPlayer.update(with: configuration)
+			}
 			.onDisappear {
 				audioPlayer.end()
 			}
@@ -160,6 +166,9 @@ struct AudioDataOnChange<Value: Equatable>: ViewModifier {
 				audioPlayer = OdioPlayer(
 					data: data,
 					configuration: configuration)
+			}
+			.chooseAvailableOnChange(of: configuration) {
+				audioPlayer.update(with: configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()
@@ -205,6 +214,9 @@ struct AudioDataConditionally: ViewModifier {
 				audioPlayer = OdioPlayer(
 					data: data,
 					configuration: configuration)
+			}
+			.chooseAvailableOnChange(of: configuration) {
+				audioPlayer.update(with: configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()
