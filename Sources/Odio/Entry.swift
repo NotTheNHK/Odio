@@ -8,7 +8,7 @@
 /// Creates a `FileKey` entry.
 ///
 /// Create `FileKey` entries by extending the `FileKey` structure
-/// with new properties and attaching the @Entry macro to the variable declarations:
+/// with new properties and attaching the `@Entry` macro to the variable declarations:
 /// ```swift
 /// extension FileKey {
 ///   @Entry var tap = "TapSound.mp3"

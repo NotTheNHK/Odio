@@ -7,12 +7,15 @@
 
 import AVFoundation
 
-/// Creates an AVAudioPlayer from the contents of a file.
+/// Creates an `AVAudioPlayer` from the contents of a file.
 /// - Parameters:
 ///   - name: The name of the audio file.
 ///   - bundle: The bundle to retrieve the file from.
 /// - Returns: An instance of `AVAudioPlayer` with the contents of the file, if an error occured `nil`.
-func createPlayer(name: String, bundle: Bundle = .main) -> AVAudioPlayer? {
+func makeAVAudioPlayer(
+	name: String,
+	bundle: Bundle = .main)
+-> AVAudioPlayer? {
 	do {
 		guard
 			let url = bundle.url(forResource: name, withExtension: nil)
@@ -29,11 +32,13 @@ func createPlayer(name: String, bundle: Bundle = .main) -> AVAudioPlayer? {
 	}
 }
 
-/// Creates an AVAudioPlayer from audio data.
+/// Creates an `AVAudioPlayer` from audio data.
 /// - Parameters:
 /// 	- data: The audio data to play.
-/// - Returns: An instance of `AVAudioPlayer` with the contents of the file, if an error occured `nil`.
-func createPlayer(data: Data?) -> AVAudioPlayer? {
+/// - Returns: An instance of `AVAudioPlayer` with the contents of the provided data, if an error occured `nil`.
+func makeAVAudioPlayer(
+	data: Data?)
+-> AVAudioPlayer? {
 	do {
 		guard
 			let data
@@ -48,12 +53,4 @@ func createPlayer(data: Data?) -> AVAudioPlayer? {
 		errorLogger.error("\(error.localizedDescription)")
 		return nil
 	}
-}
-
-func audioData(name: String, bundle: Bundle = .main) -> Data? {
-	guard
-		let url = bundle.url(forResource: name, withExtension: "")
-	else { return nil }
-
-	return try? Data(contentsOf: url)
 }

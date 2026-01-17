@@ -54,11 +54,11 @@ var body: some View {
 
 The `audioFeedback` API consists of overloads applicable in different scenarios:
 
-* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:)-(String,_,_,_)`` Plays audio when the attached view is tapped.
+* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:)-(String,_,_,_)`` Plays the specified audio when the attached view is tapped.
 
-* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:trigger:)-(String,_,_,_,_)`` Plays audio when the `trigger` value changes.
+* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:trigger:)-(String,_,_,_,_)`` Plays the specified audio when `trigger` changes.
 
-* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:shouldPlay:)-(String,_,_,_,_)`` Plays audio when `shouldPlay` is evaluated to true.
+* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:shouldPlay:)-(String,_,_,_,_)`` Plays the specified audio when `shouldPlay` returns `true`.
 
 All of these methods have a `KeyPath`, `Data` and `AudioConfiguration` overload, to learn more, see: <doc:UsingFileKey>.
 

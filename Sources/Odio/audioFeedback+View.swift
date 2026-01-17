@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension View {
-	/// Plays audio when the attached view is tapped.
+	/// Plays the specified audio when the attached view is tapped.
 	/// - Parameters:
 	///   - fileName: The name of an audio file.
 	///   - speed: The speed at which playback occurs.
@@ -22,15 +22,14 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnTap(
-				data: audioData(
-					name: fileName),
+				data: try? Data(name: fileName),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode)))
 	}
 
-	/// Plays audio when the attached view is tapped.
+	/// Plays the specified audio when the attached view is tapped.
 	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - speed: The speed at which playback occurs.
@@ -44,15 +43,14 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnTap(
-				data: audioData(
-					name: FileKey()[keyPath: keyPath]),
+				data: try? Data(keyPath: keyPath),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode)))
 	}
 
-	/// Plays audio when the attached view is tapped.
+	/// Plays the specified audio when the attached view is tapped.
 	/// - Parameters:
 	///   - data: The audio data to play.
 	///   - speed: The speed at which playback occurs.
@@ -73,7 +71,7 @@ extension View {
 					repeatMode: repeatMode)))
 	}
 
-	/// Plays audio when the attached view is tapped.
+	/// Plays the specified audio when the attached view is tapped.
 	/// - Parameters:
 	///   - fileName: The name of an audio file.
 	///   - configuration: The configuration to use.
@@ -83,12 +81,11 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnTap(
-				data: audioData(
-					name: fileName),
+				data: try? Data(name: fileName),
 				configuration: configuration))
 	}
 
-	/// Plays audio when the attached view is tapped.
+	/// Plays the specified audio when the attached view is tapped.
 	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - configuration: The configuration to use.
@@ -98,12 +95,11 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnTap(
-				data: audioData(
-					name: FileKey()[keyPath: keyPath]),
+				data: try? Data(keyPath: keyPath),
 				configuration: configuration))
 	}
 
-	/// Plays audio when the attached view is tapped.
+	/// Plays the specified audio when the attached view is tapped.
 	/// - Parameters:
 	///   - data: The audio data to play.
 	///   - configuration: The configuration to use.
@@ -120,7 +116,7 @@ extension View {
 
 
 extension View {
-	/// Plays audio on `trigger` changes.
+	/// Plays the specified audio when `trigger` changes.
 	/// - Parameters:
 	///   - fileName: The name of an audio file.
 	///   - speed: The speed at which playback occurs.
@@ -136,8 +132,7 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				data: audioData(
-					name: fileName),
+				data: try? Data(name: fileName),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
@@ -145,7 +140,7 @@ extension View {
 				value: trigger))
 	}
 
-	/// Plays audio on `trigger` changes.
+	/// Plays the specified audio when `trigger` changes.
 	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - speed: The speed at which playback occurs.
@@ -161,8 +156,7 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				data: audioData(
-					name: FileKey()[keyPath: keyPath]),
+				data: try? Data(keyPath: keyPath),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
@@ -170,7 +164,7 @@ extension View {
 				value: trigger))
 	}
 
-	/// Plays audio on `trigger` changes.
+	/// Plays the specified audio when `trigger` changes.
 	/// - Parameters:
 	///   - data: The audio data to play.
 	///   - speed: The speed at which playback occurs.
@@ -194,7 +188,7 @@ extension View {
 				value: trigger))
 	}
 
-	/// Plays audio on `trigger` changes.
+	/// Plays the specified audio when `trigger` changes.
 	/// - Parameters:
 	///   - fileName: The name of an audio file.
 	///   - configuration: The configuration to use.
@@ -206,12 +200,12 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				data: audioData(name: fileName),
+				data: try? Data(name: fileName),
 				configuration: configuration,
 				value: trigger))
 	}
 
-	/// Plays audio on `trigger` changes.
+	/// Plays the specified audio when `trigger` changes.
 	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - configuration: The configuration to use.
@@ -223,13 +217,12 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				data: audioData(
-					name: FileKey()[keyPath: keyPath]),
+				data: try? Data(keyPath: keyPath),
 				configuration: configuration,
 				value: trigger))
 	}
 
-	/// Plays audio on `trigger` changes.
+	/// Plays the specified audio when `trigger` changes.
 	/// - Parameters:
 	///   - data: The audio data to play.
 	///   - configuration: The configuration to use.
@@ -247,15 +240,15 @@ extension View {
 	}
 }
 
-// TODO: Update `shouldPlay` description
+
 extension View {
-	/// Plays audio when `shouldPlay` is evaluated to true.
+	/// Plays the specified audio when `shouldPlay` returns `true`.
 	/// - Parameters:
 	///   - fileName: The name of an audio file.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
 	///   - repeatMode: The playback repeat mode to use.
-	///   - shouldPlay: The value to monitor for true.
+	///   - shouldPlay: The closure to evaluate.
 	public func audioFeedback(
 		_ fileName: String,
 		at speed: Float = 1,
@@ -265,22 +258,22 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				data: audioData(
-					name: fileName),
+				data: try? Data(name: fileName),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
-				shouldPlay: .init(condition: shouldPlay)))
+				shouldPlay: .init(
+					condition: shouldPlay)))
 	}
 
-	/// Plays audio when `shouldPlay` is evaluated to true.
+	/// Plays the specified audio when `shouldPlay` returns `true`.
 	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
 	///   - repeatMode: The playback repeat mode to use.
-	///   - shouldPlay: The value to monitor for true.
+	///   - shouldPlay: The closure to evaluate.
 	public func audioFeedback(
 		_ keyPath: KeyPath<FileKey, String>,
 		at speed: Float = 1,
@@ -290,22 +283,22 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				data: audioData(
-					name: FileKey()[keyPath: keyPath]),
+				data: try? Data(keyPath: keyPath),
 				configuration: .init(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
-				shouldPlay: .init(condition: shouldPlay)))
+				shouldPlay: .init(
+					condition: shouldPlay)))
 	}
 
-	/// Plays audio when `shouldPlay` is evaluated to true.
+	/// Plays the specified audio when `shouldPlay` returns `true`.
 	/// - Parameters:
 	///   - data: The audio data to play.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
 	///   - repeatMode: The playback repeat mode to use.
-	///   - shouldPlay: The value to monitor for true.
+	///   - shouldPlay: The closure to evaluate.
 	public func audioFeedback(
 		data: Data?,
 		at speed: Float = 1,
@@ -324,11 +317,11 @@ extension View {
 					condition: shouldPlay)))
 	}
 
-	/// Plays audio when `shouldPlay` is evaluated to true.
+	/// Plays the specified audio when `shouldPlay` returns `true`.
 	/// - Parameters:
 	///   - fileName: The name of an audio file.
 	///   - configuration: The configuration to use.
-	///   - shouldPlay: The value to monitor for true.
+	///   - shouldPlay: The closure to evaluate.
 	public func audioFeedback(
 		_ fileName: String,
 		configuration: AudioConfiguration,
@@ -336,18 +329,17 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				data: audioData(
-					name: fileName),
+				data: try? Data(name: fileName),
 				configuration: configuration,
 				shouldPlay: .init(
 					condition: shouldPlay)))
 	}
 
-	/// Plays audio when `shouldPlay` is evaluated to true.
+	/// Plays the specified audio when `shouldPlay` returns `true`.
 	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - configuration: The configuration to use.
-	///   - shouldPlay: The value to monitor for true.
+	///   - shouldPlay: The closure to evaluate.
 	public func audioFeedback(
 		_ keyPath: KeyPath<FileKey, String>,
 		configuration: AudioConfiguration,
@@ -355,18 +347,17 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				data: audioData(
-					name: FileKey()[keyPath: keyPath]),
+				data: try? Data(keyPath: keyPath),
 				configuration: configuration,
 				shouldPlay: .init(
 					condition: shouldPlay)))
 	}
 
-	/// Plays audio when `shouldPlay` is evaluated to true.
+	/// Plays the specified audio when `shouldPlay` returns `true`.
 	/// - Parameters:
 	///   - data: The audio data to play.
 	///   - configuration: The configuration to use.
-	///   - shouldPlay: The value to monitor for true.
+	///   - shouldPlay: The closure to evaluate.
 	public func audioFeedback(
 		data: Data?,
 		configuration: AudioConfiguration,

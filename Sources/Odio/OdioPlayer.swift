@@ -7,7 +7,7 @@
 
 import AVFoundation
 
-/// The underlying type used by Odio for audio playback.
+/// The underlying type used by `Odio` for audio playback.
 public struct OdioPlayer {
 	/// The underlying `AVAudioPlayer` instance.
 	private let player: AVAudioPlayer?
@@ -33,7 +33,7 @@ public struct OdioPlayer {
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never,
 		from bundle: Bundle = .main) {
-			self.player = createPlayer(name: fileName, bundle: bundle)
+			self.player = makeAVAudioPlayer(name: fileName, bundle: bundle)
 			self.speed = speed
 			self.delay = delay
 			self.repeatMode = repeatMode
@@ -47,7 +47,7 @@ public struct OdioPlayer {
 		for fileName: String,
 		configuration: AudioConfiguration,
 		from bundle: Bundle = .main) {
-			self.player = createPlayer(name: fileName, bundle: bundle)
+			self.player = makeAVAudioPlayer(name: fileName, bundle: bundle)
 			self.speed = configuration.speed
 			self.delay = configuration.delay
 			self.repeatMode = configuration.repeatMode
@@ -65,7 +65,7 @@ public struct OdioPlayer {
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never,
 		from bundle: Bundle = .main) {
-			self.player = createPlayer(name: FileKey()[keyPath: keyPath], bundle: bundle)
+			self.player = makeAVAudioPlayer(name: FileKey()[keyPath: keyPath], bundle: bundle)
 			self.speed = speed
 			self.delay = delay
 			self.repeatMode = repeatMode
@@ -79,7 +79,7 @@ public struct OdioPlayer {
 		from keyPath: KeyPath<FileKey, String>,
 		configuration: AudioConfiguration,
 		from bundle: Bundle = .main) {
-			self.player = createPlayer(name: FileKey()[keyPath: keyPath], bundle: bundle)
+			self.player = makeAVAudioPlayer(name: FileKey()[keyPath: keyPath], bundle: bundle)
 			self.speed = configuration.speed
 			self.delay = configuration.delay
 			self.repeatMode = configuration.repeatMode
@@ -95,7 +95,7 @@ public struct OdioPlayer {
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never) {
-			self.player = createPlayer(data: data)
+			self.player = makeAVAudioPlayer(data: data)
 			self.speed = speed
 			self.delay = delay
 			self.repeatMode = repeatMode
@@ -107,7 +107,7 @@ public struct OdioPlayer {
 	public init(
 		data: Data?,
 		configuration: AudioConfiguration) {
-			self.player = createPlayer(data: data)
+			self.player = makeAVAudioPlayer(data: data)
 			self.speed = configuration.speed
 			self.delay = configuration.delay
 			self.repeatMode = configuration.repeatMode
@@ -135,7 +135,9 @@ public struct OdioPlayer {
 	/// You don't call this method directly, instead call the instance as a function.
 	/// ```swift
 	/// let odioPlayer = OdioPlayer("TapSound.mp3")
-	///   ...
+	///
+	/// ...
+	///
 	/// odioPlayer()
 	/// ```
 	public func callAsFunction() {

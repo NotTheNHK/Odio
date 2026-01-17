@@ -8,7 +8,7 @@ There are different approaches one can take to resolve these issues,
 one of these approaches is ``Odio/FileKey``.
 
 ## What is FileKey?
-At its essence, `FileKey` offers an interface through which you reference files.
+At its core, `FileKey` offers an interface through which you reference files.
 
 ## How to Use FileKey?
 
