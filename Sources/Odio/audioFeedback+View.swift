@@ -242,19 +242,21 @@ extension View {
 
 
 extension View {
-	/// Plays the specified audio when `shouldPlay` returns `true`.
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
 	/// - Parameters:
 	///   - fileName: The name of an audio file.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
 	///   - repeatMode: The playback repeat mode to use.
-	///   - shouldPlay: The closure to evaluate.
-	public func audioFeedback(
+	///   - trigger: The value to monitor for changes.
+	///   - condition: The closure to determine whether to play the specified audio when trigger changes.
+	public func audioFeedback<Value: Equatable>(
 		_ fileName: String,
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never,
-		shouldPlay: () -> Bool)
+		trigger: Value,
+		condition: @escaping (_ oldValue: Value, _ newValue: Value) -> Bool)
 	-> some View {
 		modifier(
 			AudioConditionally(
@@ -263,23 +265,25 @@ extension View {
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
-				shouldPlay: .init(
-					condition: shouldPlay)))
+				value: trigger,
+				condition: condition))
 	}
 
-	/// Plays the specified audio when `shouldPlay` returns `true`.
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
 	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
 	///   - repeatMode: The playback repeat mode to use.
-	///   - shouldPlay: The closure to evaluate.
-	public func audioFeedback(
+	///   - trigger: The value to monitor for changes.
+	///   - condition: The closure to determine whether to play the specified audio when trigger changes.
+	public func audioFeedback<Value: Equatable>(
 		_ keyPath: KeyPath<FileKey, String>,
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never,
-		shouldPlay: () -> Bool)
+		trigger: Value,
+		condition: @escaping (_ oldValue: Value, _ newValue: Value) -> Bool)
 	-> some View {
 		modifier(
 			AudioConditionally(
@@ -288,23 +292,25 @@ extension View {
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
-				shouldPlay: .init(
-					condition: shouldPlay)))
+				value: trigger,
+				condition: condition))
 	}
 
-	/// Plays the specified audio when `shouldPlay` returns `true`.
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
 	/// - Parameters:
 	///   - data: The audio data to play.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
 	///   - repeatMode: The playback repeat mode to use.
-	///   - shouldPlay: The closure to evaluate.
-	public func audioFeedback(
+	///   - trigger: The value to monitor for changes.
+	///   - condition: The closure to determine whether to play the specified audio when trigger changes.
+	public func audioFeedback<Value: Equatable>(
 		data: Data?,
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never,
-		shouldPlay: () -> Bool)
+		trigger: Value,
+		condition: @escaping (_ oldValue: Value, _ newValue: Value) -> Bool)
 	-> some View {
 		modifier(
 			AudioConditionally(
@@ -313,61 +319,67 @@ extension View {
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
-				shouldPlay: .init(
-					condition: shouldPlay)))
+				value: trigger,
+				condition: condition))
 	}
 
-	/// Plays the specified audio when `shouldPlay` returns `true`.
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
 	/// - Parameters:
 	///   - fileName: The name of an audio file.
 	///   - configuration: The configuration to use.
-	///   - shouldPlay: The closure to evaluate.
-	public func audioFeedback(
+	///   - trigger: The value to monitor for changes.
+	///   - condition: The closure to determine whether to play the specified audio when trigger changes.
+	public func audioFeedback<Value: Equatable>(
 		_ fileName: String,
 		configuration: AudioConfiguration,
-		shouldPlay: () -> Bool)
+		trigger: Value,
+		condition: @escaping (_ oldValue: Value, _ newValue: Value) -> Bool)
 	-> some View {
 		modifier(
 			AudioConditionally(
 				data: try? Data(name: fileName),
 				configuration: configuration,
-				shouldPlay: .init(
-					condition: shouldPlay)))
+				value: trigger,
+				condition: condition))
 	}
 
-	/// Plays the specified audio when `shouldPlay` returns `true`.
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
 	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - configuration: The configuration to use.
-	///   - shouldPlay: The closure to evaluate.
-	public func audioFeedback(
+	///   - trigger: The value to monitor for changes.
+	///   - condition: The closure to determine whether to play the specified audio when trigger changes.
+	public func audioFeedback<Value: Equatable>(
 		_ keyPath: KeyPath<FileKey, String>,
 		configuration: AudioConfiguration,
-		shouldPlay: () -> Bool)
+		trigger: Value,
+		condition: @escaping (_ oldValue: Value, _ newValue: Value) -> Bool)
 	-> some View {
 		modifier(
 			AudioConditionally(
 				data: try? Data(keyPath: keyPath),
 				configuration: configuration,
-				shouldPlay: .init(
-					condition: shouldPlay)))
+				value: trigger,
+				condition: condition))
 	}
 
-	/// Plays the specified audio when `shouldPlay` returns `true`.
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
 	/// - Parameters:
 	///   - data: The audio data to play.
 	///   - configuration: The configuration to use.
-	///   - shouldPlay: The closure to evaluate.
-	public func audioFeedback(
+	///   - trigger: The value to monitor for changes.
+	///   - condition: The closure to determine whether to play the specified audio when trigger changes.
+	public func audioFeedback<Value: Equatable>(
 		data: Data?,
 		configuration: AudioConfiguration,
-		shouldPlay: () -> Bool)
+		trigger: Value,
+		condition: @escaping (_ oldValue: Value, _ newValue: Value) -> Bool)
 	-> some View {
 		modifier(
 			AudioConditionally(
 				data: data,
 				configuration: configuration,
-				shouldPlay: .init(
-					condition: shouldPlay)))
+				value: trigger,
+				condition: condition))
 	}
 }

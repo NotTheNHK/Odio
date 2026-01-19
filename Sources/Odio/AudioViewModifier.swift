@@ -22,13 +22,13 @@ struct AudioOnTap: ViewModifier {
 						audioPlayer.rewind()
 						audioPlayer()
 					})
-			.chooseAvailableOnChange(of: data, initial: true) {
+			.onChangeCompatible(of: data, initial: true) {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
 					data: data,
 					configuration: configuration)
 			}
-			.chooseAvailableOnChange(of: configuration) {
+			.onChangeCompatible(of: configuration) {
 				audioPlayer.update(with: configuration)
 			}
 			.onDisappear {
@@ -48,17 +48,17 @@ struct AudioOnChange<Value: Equatable>: ViewModifier {
 
 	func body(content: Content) -> some View {
 		content
-			.chooseAvailableOnChange(of: value) {
+			.onChangeCompatible(of: value) {
 				audioPlayer.rewind()
 				audioPlayer()
 			}
-			.chooseAvailableOnChange(of: data, initial: true) {
+			.onChangeCompatible(of: data, initial: true) {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
 					data: data,
 					configuration: configuration)
 			}
-			.chooseAvailableOnChange(of: configuration) {
+			.onChangeCompatible(of: configuration) {
 				audioPlayer.update(with: configuration)
 			}
 			.onDisappear {
@@ -68,45 +68,32 @@ struct AudioOnChange<Value: Equatable>: ViewModifier {
 }
 
 
-struct AudioConditionally: ViewModifier {
-	struct PlaybackTrigger: Equatable {
-		let id = UUID()
-		let value: Bool
-
-		init(condition: () -> Bool) {
-			value = condition()
-		}
-
-		func callAsFunction() -> Bool { value }
-	}
-
+struct AudioConditionally<Value: Equatable>: ViewModifier {
 	@AudioPlayer
 	private var audioPlayer
 
 	let data: Data?
 	let configuration: AudioConfiguration
-	let shouldPlay: PlaybackTrigger
+	let value: Value
+	let condition: (Value, Value) -> Bool
 
 	func body(content: Content) -> some View {
 		content
-			.chooseAvailableOnChange(of: shouldPlay) {
-				guard shouldPlay() else { return }
+			.onChangeCompatible(of: value) { oldValue, newValue in
+				guard
+					condition(oldValue, newValue)
+				else { return }
+
 				audioPlayer.rewind()
 				audioPlayer()
 			}
-			.onAppear {
-				audioPlayer = OdioPlayer(
-					data: data,
-					configuration: configuration)
-				if shouldPlay() { audioPlayer() }
-			}
-			.chooseAvailableOnChange(of: data) {
+			.onChangeCompatible(of: data, initial: true) {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
 					data: data,
 					configuration: configuration)
 			}
-			.chooseAvailableOnChange(of: configuration) {
+			.onChangeCompatible(of: configuration) {
 				audioPlayer.update(with: configuration)
 			}
 			.onDisappear {

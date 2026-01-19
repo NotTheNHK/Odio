@@ -7,10 +7,13 @@
 
 import SwiftUI
 
-struct ChooseAvailableOnChange<Value: Equatable>: ViewModifier {
+struct OnChangeCompatible<Value: Equatable>: ViewModifier {
+	@State
+	private var oldValue: Value?
+
 	let value: Value
 	let initial: Bool
-	let action: () -> Void
+	let action: (Value, Value) -> Void
 
 	func body(content: Content) -> some View {
 		if #available(iOS 17.0, macOS 14.0, *) {
@@ -18,23 +21,45 @@ struct ChooseAvailableOnChange<Value: Equatable>: ViewModifier {
 				.onChange(of: value, initial: initial, action)
 		} else {
 			content
-				.onAppear { if initial { action() } }
-				.onChange(of: value) { _ in action() }
+				.onAppear {
+					if initial {
+						action(value, value)
+						oldValue = value
+					}
+				}
+				.onChange(of: value) { newValue in
+					action(oldValue!, newValue)
+					oldValue = newValue
+				}
 		}
 	}
 }
 
 
 extension View {
-	func chooseAvailableOnChange(
-		of value: some Equatable,
+	func onChangeCompatible<Value: Equatable>(
+		of value: Value,
+		initial: Bool = false,
+		_ action: @escaping (_ oldValue: Value, _ newValue: Value) -> Void)
+	-> some View {
+		modifier(
+			OnChangeCompatible(
+				value: value,
+				initial: initial,
+				action: action))
+	}
+
+	func onChangeCompatible<Value: Equatable>(
+		of value: Value,
 		initial: Bool = false,
 		_ action: @escaping () -> Void)
 	-> some View {
 		modifier(
-			ChooseAvailableOnChange(
+			OnChangeCompatible(
 				value: value,
 				initial: initial,
-				action: action))
+				action: { _, _ in
+					action()
+				}))
 	}
 }
