@@ -19,7 +19,7 @@ public struct EntryMacro: AccessorMacro {
       let varDecl = declaration.as(VariableDeclSyntax.self),
       let binding = varDecl.bindings.first,
       let initializer = binding.initializer
-    else { throw MacroExpansionErrorMessage("Entry macro can only be applied to var") }
+    else { throw MacroExpansionErrorMessage("Entry macro can only be applied to 'var'") }
 
     guard
       binding.accessorBlock == nil
@@ -28,7 +28,7 @@ public struct EntryMacro: AccessorMacro {
 
     guard
       let value = initializer.value.as(StringLiteralExprSyntax.self)
-    else { throw MacroExpansionErrorMessage("Initializer expression could not be converted to type String") }
+    else { throw MacroExpansionErrorMessage("Initializer expression could not be converted to type 'String'") }
 
     let getAccessor = AccessorDeclSyntax(accessorSpecifier: .keyword(.get)) { "\(value)" }
 
