@@ -58,7 +58,7 @@ The `audioFeedback` API consists of overloads applicable in different scenarios:
 
 * ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:trigger:)-(String,_,_,_,_)`` Plays the specified audio when `trigger` changes.
 
-* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:shouldPlay:)-(String,_,_,_,_)`` Plays the specified audio when `shouldPlay` returns `true`.
+* ``SwiftUICore/View/audioFeedback(_:at:after:repeatMode:trigger:condition:)-(String,_,_,_,_,_)`` Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
 
 All of these methods have a `KeyPath`, `Data` and `AudioConfiguration` overload, to learn more, see: <doc:UsingFileKey>.
 
@@ -88,15 +88,19 @@ var body: some View {
 
 Plays the "VolumeLimit.mp3" sound only when the volume reaches its maximum value (100%).
 ```swift
-@State private var volume = 0.5
+enum Phase {
+	case inactive
+	case loading
+	case finished
+	case failed
+}
+
+...
 
 var body: some View {
-	Stepper(
-		"Volume: \(volume.formatted(.percent))",
-		value: $volume,
-		in: 0...1,
-		step: 0.1)
-	.audioFeedback("VolumeLimit.mp3") {
-		volume == 1
-	}
+	ContentView(phase: $phase)
+		.audioFeedback(\.finished, trigger: phase) { _, newValue in
+			newValue == .finished
+		}
 }
+```

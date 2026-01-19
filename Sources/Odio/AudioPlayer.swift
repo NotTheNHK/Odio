@@ -29,8 +29,7 @@ import SwiftUI
 /// You can also initialize an empty `@AudioPlayer`, this is useful when the audio file to be used is not initially known, e.g,
 /// here is an excerpt from one of the `audioFeedback` methods implementation:
 /// ```swift
-/// @AudioPlayer
-///	private var audioPlayer
+/// @AudioPlayer private var audioPlayer
 ///
 ///	let name: String
 ///
@@ -38,11 +37,10 @@ import SwiftUI
 ///
 ///	func body(content: Content) -> some View {
 ///		content
-///			.onAppear {
+///			.onChange(of: name, initial: true) {
 /// 			audioPlayer = OdioPlayer(
 ///					for: name,
 ///					configuration: configuration)
-///				if shouldPlay() { audioPlayer() }
 ///			}
 ///
 ///		...

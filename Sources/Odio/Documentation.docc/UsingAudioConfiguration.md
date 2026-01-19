@@ -22,16 +22,11 @@ extension AudioConfiguration {
 ```
 
 ```swift
-@AudioPlayer(
-	"AppWideSound.mp3",
-	configuration: .appWideCon)
-private var audioPlayer
+@AudioPlayer("AppWideSound.mp3", configuration: .appWideCon) private var audioPlayer
 ```
 
 ```swift
 @AudioPlayer private var audioPlayer
-
-@State private var configuration = AudioConfiguration()
 
 ...
 
@@ -39,7 +34,7 @@ var body: some View {
 	Form {
 		...
 	}
-	.onChange {
+	.onChange(of: configuration) {
 		audioPlayer.update(with: configuration)
 	}
 }
