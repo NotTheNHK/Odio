@@ -1,5 +1,5 @@
 //
-// ChooseAvailableOnChange.swift
+// OnChangeCompatible.swift
 // Odio
 //
 // Created by Barreloofy on 11/14/25 at 6:40 PM
@@ -37,6 +37,11 @@ struct OnChangeCompatible<Value: Equatable>: ViewModifier {
 
 
 extension View {
+	/// Adds a modifier for this view that fires an action when a specific value changes.
+	/// - Parameters:
+	///   - value: The value to check against when determining whether to run the closure.
+	///   - initial: Whether the action should be run when this view initially appears.
+	///   - action: A closure to run when the value changes.
 	func onChangeCompatible<Value: Equatable>(
 		of value: Value,
 		initial: Bool = false,
@@ -49,6 +54,11 @@ extension View {
 				action: action))
 	}
 
+	/// Adds a modifier for this view that fires an action when a specific value changes.
+	/// - Parameters:
+	///   - value: The value to check against when determining whether to run the closure.
+	///   - initial: Whether the action should be run when this view initially appears.
+	///   - action: A closure to run when the value changes.
 	func onChangeCompatible<Value: Equatable>(
 		of value: Value,
 		initial: Bool = false,
