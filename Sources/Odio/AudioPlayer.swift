@@ -76,19 +76,19 @@ public struct AudioPlayer: DynamicProperty {
 	}
 
 	/// - Parameters:
-	///   - fileName: The name of an audio file.
+	///   - filename: The name of an audio file.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
 	///   - repeatMode: The playback repeat mode to use.
 	///   - bundle: The bundle to retrieve the file from.
 	public init(
-		_ fileName: String,
+		_ filename: String,
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never,
 		from bundle: Bundle = .main) {
 			self.player = .init(
-				for: fileName,
+				for: filename,
 				at: speed,
 				after: delay,
 				repeatMode: repeatMode,
@@ -96,15 +96,15 @@ public struct AudioPlayer: DynamicProperty {
 		}
 
 	/// - Parameters:
-	///   - fileName: The name of an audio file.
+	///   - filename: The name of an audio file.
 	///   - configuration: The configuration to use.
 	///   - bundle: The bundle to retrieve the file from.
 	public init(
-		_ fileName: String,
+		_ filename: String,
 		configuration: AudioConfiguration,
 		from bundle: Bundle = .main) {
 			self.player = OdioPlayer(
-				for: fileName,
+				for: filename,
 				configuration: configuration,
 				from: bundle)
 		}

@@ -27,6 +27,27 @@ extension Data {
 		}
 	}
 
+	init(
+		forResource name: String,
+		withExtension `extension`: String? = nil,
+		subdirectory subpath: String? = nil,
+		from bundle: Bundle = .main)
+	throws {
+		do {
+			guard
+				let url = bundle.url(
+					forResource: name,
+					withExtension: `extension`,
+					subdirectory: subpath)
+			else { throw OdioError(errorDescription: "Resource not found: \(name).\(`extension` ?? "")") }
+
+			self = try Data(contentsOf: url)
+		} catch {
+			errorLogger.error("\(error.localizedDescription)")
+			throw error
+		}
+	}
+
 	/// - Parameters:
 	///   - keyPath: A key path to a specific resulting value representing an audio file.
 	///   - bundle: The bundle to retrieve the file from.

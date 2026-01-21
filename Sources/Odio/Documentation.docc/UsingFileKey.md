@@ -26,7 +26,7 @@ extension FileKey {
 All `Odio` APIs that accept a `String` as the file name
 also provide an overload that accepts a `KeyPath` in the form of: `KeyPath<FileKey, String>`.
 
-Instead of using (_ fileName: String):
+Instead of using (_ filename: String):
 ```swift
 @AudioPlayer("TapSound.mp3") private var audioPlayer
 ```
@@ -36,7 +36,7 @@ Use (_ keyPath: KeyPath<FileKey, String>)):
 @AudioPlayer(\.tap) private var audioPlayer
 ```
 
-Instead of using (_ fileName: String):
+Instead of using (_ filename: String):
 ```swift
 var body: some View {
 	Button("Open") { ... }

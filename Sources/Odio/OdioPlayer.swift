@@ -22,32 +22,32 @@ public struct OdioPlayer {
 	public var repeatMode: RepeatMode
 
 	/// - Parameters:
-	///   - fileName: The name of an audio file.
+	///   - filename: The name of an audio file.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
 	///   - repeatMode: The playback repeat mode to use.
 	///   - bundle: The bundle to retrieve the file from.
 	public init(
-		for fileName: String,
+		for filename: String,
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never,
 		from bundle: Bundle = .main) {
-			self.player = makeAVAudioPlayer(name: fileName, bundle: bundle)
+			self.player = makeAVAudioPlayer(name: filename, bundle: bundle)
 			self.speed = speed
 			self.delay = delay
 			self.repeatMode = repeatMode
 		}
 
 	/// - Parameters:
-	///   - fileName: The name of an audio file.
+	///   - filename: The name of an audio file.
 	///   - configuration: The configuration to use.
 	///   - bundle: The bundle to retrieve the file from.
 	public init(
-		for fileName: String,
+		for filename: String,
 		configuration: AudioConfiguration,
 		from bundle: Bundle = .main) {
-			self.player = makeAVAudioPlayer(name: fileName, bundle: bundle)
+			self.player = makeAVAudioPlayer(name: filename, bundle: bundle)
 			self.speed = configuration.speed
 			self.delay = configuration.delay
 			self.repeatMode = configuration.repeatMode
