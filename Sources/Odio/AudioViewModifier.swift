@@ -101,3 +101,32 @@ struct AudioConditionally<Value: Equatable>: ViewModifier {
 			}
 	}
 }
+
+
+struct AudioFromClosure<Value: Equatable>: ViewModifier {
+	@AudioPlayer
+	private var audioPlayer
+
+	let value: Value
+	let feedback: (Value, Value) -> AudioFeedback?
+
+	func body(content: Content) -> some View {
+		content
+			.onChangeCompatible(of: value) { oldValue, newValue in
+				guard
+					let audioFeedback = feedback(oldValue, newValue)
+				else { return }
+
+				audioPlayer.end()
+
+				audioPlayer = OdioPlayer(
+					data: audioFeedback.data,
+					configuration: audioFeedback.configuration)
+
+				audioPlayer()
+			}
+			.onDisappear {
+				audioPlayer.end()
+			}
+	}
+}
