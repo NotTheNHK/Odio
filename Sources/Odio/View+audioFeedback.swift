@@ -207,7 +207,7 @@ extension View {
 
 
 extension View {
-	func audioFeedback<Value: Equatable>(
+	public func audioFeedback<Value: Equatable>(
 		trigger: Value,
 		_ feedback: @escaping (_ oldValue: Value, _ newValue: Value) -> AudioFeedback?)
 	-> some View {
@@ -217,7 +217,7 @@ extension View {
 				feedback: feedback))
 	}
 
-	func audioFeedback<Value: Equatable>(
+	public func audioFeedback<Value: Equatable>(
 		trigger: Value,
 		_ feedback: @escaping () -> AudioFeedback?)
 	-> some View {
