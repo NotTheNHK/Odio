@@ -21,17 +21,8 @@ let package = Package(
   targets: [
     .target(
       name: "Odio",
-      dependencies: [
-        "EntryMacros",
-      ],
       swiftSettings: [
         .defaultIsolation(MainActor.self),
-      ]),
-    .macro(
-      name: "EntryMacros",
-      dependencies: [
-        .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-        .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
       ]),
   ],
   swiftLanguageModes: [
