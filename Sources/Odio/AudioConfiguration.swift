@@ -8,7 +8,7 @@
 import Foundation
 
 /// A type who specifies the characteristics of an `OdioPlayer` instance.
-public struct AudioConfiguration: Hashable {
+public struct AudioConfiguration: Equatable {
 	/// The speed at which playback occurs.
 	public var speed: Float
 

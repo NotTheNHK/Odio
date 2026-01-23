@@ -29,60 +29,14 @@ public struct OdioPlayer {
 	///   - bundle: The bundle to retrieve the file from.
 	public init(
 		for filename: String,
+		from bundle: Bundle = .main,
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
-		repeatMode: RepeatMode = .never,
-		from bundle: Bundle = .main) {
+		repeatMode: RepeatMode = .never) {
 			self.player = makeAVAudioPlayer(name: filename, bundle: bundle)
 			self.speed = speed
 			self.delay = delay
 			self.repeatMode = repeatMode
-		}
-
-	/// - Parameters:
-	///   - filename: The name of an audio file.
-	///   - configuration: The configuration to use.
-	///   - bundle: The bundle to retrieve the file from.
-	public init(
-		for filename: String,
-		configuration: AudioConfiguration,
-		from bundle: Bundle = .main) {
-			self.player = makeAVAudioPlayer(name: filename, bundle: bundle)
-			self.speed = configuration.speed
-			self.delay = configuration.delay
-			self.repeatMode = configuration.repeatMode
-		}
-
-	/// - Parameters:
-	///   - keyPath: A key path to a specific resulting value representing an audio file.
-	///   - speed: The speed at which playback occurs.
-	///   - delay: The time in seconds before playback occurs.
-	///   - repeatMode: The playback repeat mode to use.
-	///   - bundle: The bundle to retrieve the file from.
-	public init(
-		from keyPath: KeyPath<FileKey, String>,
-		at speed: Float = 1,
-		after delay: TimeInterval = 0,
-		repeatMode: RepeatMode = .never,
-		from bundle: Bundle = .main) {
-			self.player = makeAVAudioPlayer(name: FileKey()[keyPath: keyPath], bundle: bundle)
-			self.speed = speed
-			self.delay = delay
-			self.repeatMode = repeatMode
-		}
-
-	/// - Parameters:
-	///   - keyPath: A key path to a specific resulting value representing an audio file.
-	///   - configuration: The configuration to use.
-	///   - bundle: The bundle to retrieve the file from.
-	public init(
-		from keyPath: KeyPath<FileKey, String>,
-		configuration: AudioConfiguration,
-		from bundle: Bundle = .main) {
-			self.player = makeAVAudioPlayer(name: FileKey()[keyPath: keyPath], bundle: bundle)
-			self.speed = configuration.speed
-			self.delay = configuration.delay
-			self.repeatMode = configuration.repeatMode
 		}
 
 	/// - Parameters:
@@ -101,16 +55,12 @@ public struct OdioPlayer {
 			self.repeatMode = repeatMode
 		}
 
-	/// - Parameters:
-	///   - data: The audio data to play.
-	///   - configuration: The configuration to use.
 	public init(
-		data: Data?,
-		configuration: AudioConfiguration) {
-			self.player = makeAVAudioPlayer(data: data)
-			self.speed = configuration.speed
-			self.delay = configuration.delay
-			self.repeatMode = configuration.repeatMode
+		_ feedback: AudioFeedback) {
+			self.player = makeAVAudioPlayer(data: feedback.data)
+			self.speed = feedback.configuration.speed
+			self.delay = feedback.configuration.delay
+			self.repeatMode = feedback.configuration.repeatMode
 		}
 
 	/// Creates an empty `OdioPlayer` instance.

@@ -7,10 +7,11 @@
 
 import Foundation
 
-public struct AudioFeedback {
+public struct AudioFeedback: Equatable {
 	let data: Data
 	let configuration: AudioConfiguration
 }
+
 
 extension AudioFeedback {
 	public init(
