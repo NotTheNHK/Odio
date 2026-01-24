@@ -7,10 +7,17 @@
 
 import Foundation
 
+/// Represents the audio and its configuration to play.
 public struct AudioFeedback: Equatable {
 	let data: Data
 	let configuration: AudioConfiguration
 
+	/// - Parameters:
+	///   - filename: The name of an audio file.
+	///   - bundle: The bundle to retrieve the file from.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
 	public init(
 		_ filename: String,
 		from bundle: Bundle = .main,
@@ -25,6 +32,11 @@ public struct AudioFeedback: Equatable {
 			repeatMode: repeatMode)
 	}
 
+	/// - Parameters:
+	///   - data: The audio data to play.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
 	public init(
 		_ data: Data?,
 		at speed: Float = 1,

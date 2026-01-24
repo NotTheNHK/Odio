@@ -23,10 +23,10 @@ public struct OdioPlayer {
 
 	/// - Parameters:
 	///   - filename: The name of an audio file.
+	///   - bundle: The bundle to retrieve the file from.
 	///   - speed: The speed at which playback occurs.
 	///   - delay: The time in seconds before playback occurs.
 	///   - repeatMode: The playback repeat mode to use.
-	///   - bundle: The bundle to retrieve the file from.
 	public init(
 		_ filename: String,
 		from bundle: Bundle = .main,
@@ -55,6 +55,7 @@ public struct OdioPlayer {
 			self.repeatMode = repeatMode
 		}
 
+	/// - Parameter feedback: The feedback to play.
 	public init(
 		_ feedback: AudioFeedback) {
 			self.player = makeAVAudioPlayer(data: feedback.data)
@@ -91,7 +92,9 @@ public struct OdioPlayer {
 	/// odioPlayer()
 	/// ```
 	public func callAsFunction() {
-		guard let player else { return }
+		guard
+			let player
+		else { return }
 
 		player.enableRate = speed != 1 ? true : false
 		player.rate = speed

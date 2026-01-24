@@ -8,6 +8,12 @@
 import SwiftUI
 
 extension View {
+	/// Plays the specified audio when the attached view is tapped.
+	/// - Parameters:
+	///   - filename: The name of an audio file.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
 	public func audioFeedback(
 		_ filename: String,
 		at speed: Float = 1,
@@ -23,6 +29,12 @@ extension View {
 					repeatMode: repeatMode)))
 	}
 
+	/// Plays the specified audio when the attached view is tapped.
+	/// - Parameters:
+	///   - data: The audio data to play.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
 	public func audioFeedback(
 		_ data: Data?,
 		at speed: Float = 1,
@@ -38,6 +50,8 @@ extension View {
 					repeatMode: repeatMode)))
 	}
 
+	/// Plays the specified audio when the attached view is tapped.
+	/// - Parameter feedback: The feedback to play.
 	public func audioFeedback(_ feedback: AudioFeedback) -> some View {
 		modifier(
 			AudioOnTap(
@@ -49,6 +63,13 @@ extension View {
 
 
 extension View {
+	/// Plays the specified audio when `trigger` changes.
+	/// - Parameters:
+	///   - filename: The name of an audio file.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
+	///   - trigger: The value to monitor for changes.
 	public func audioFeedback(
 		_ filename: String,
 		at speed: Float = 1,
@@ -66,6 +87,13 @@ extension View {
 				value: trigger))
 	}
 
+	/// Plays the specified audio when `trigger` changes.
+	/// - Parameters:
+	///   - data: The audio data to play.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
+	///   - trigger: The value to monitor for changes.
 	public func audioFeedback(
 		_ data: Data?,
 		at speed: Float = 1,
@@ -83,6 +111,10 @@ extension View {
 				value: trigger))
 	}
 
+	/// Plays the specified audio when `trigger` changes.
+	/// - Parameters:
+	///   - feedback: The feedback to play.
+	///   - trigger: The value to monitor for changes.
 	public func audioFeedback(
 		_ feedback: AudioFeedback,
 		_ trigger: some Equatable)
@@ -97,6 +129,14 @@ extension View {
 
 
 extension View {
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
+	/// - Parameters:
+	///   - filename: The name of an audio file.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
+	///   - trigger: The value to monitor for changes.
+	///   - condition: A closure to determine whether to play the feedback when `trigger` changes.
 	public func audioFeedback<Value: Equatable>(
 		_ filename: String,
 		at speed: Float = 1,
@@ -116,6 +156,14 @@ extension View {
 				condition: condition))
 	}
 
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
+	/// - Parameters:
+	///   - filename: The name of an audio file.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
+	///   - trigger: The value to monitor for changes.
+	///   - condition: A closure to determine whether to play the feedback when `trigger` changes.
 	public func audioFeedback<Value: Equatable>(
 		_ filename: String,
 		at speed: Float = 1,
@@ -137,6 +185,14 @@ extension View {
 				}))
 	}
 
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
+	/// - Parameters:
+	///   - data: The audio data to play.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
+	///   - trigger: The value to monitor for changes.
+	///   - condition: A closure to determine whether to play the feedback when `trigger` changes.
 	public func audioFeedback<Value: Equatable>(
 		_ data: Data?,
 		at speed: Float = 1,
@@ -156,6 +212,14 @@ extension View {
 				condition: condition))
 	}
 
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
+	/// - Parameters:
+	///   - data: The audio data to play.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
+	///   - trigger: The value to monitor for changes.
+	///   - condition: A closure to determine whether to play the feedback when `trigger` changes.
 	public func audioFeedback<Value: Equatable>(
 		_ data: Data?,
 		at speed: Float = 1,
@@ -177,6 +241,11 @@ extension View {
 				}))
 	}
 
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
+	/// - Parameters:
+	///   - feedback: The feedback to play.
+	///   - trigger: The value to monitor for changes.
+	///   - condition: A closure to determine whether to play the feedback when `trigger` changes.
 	public func audioFeedback<Value: Equatable>(
 		_ feedback: AudioFeedback,
 		trigger: Value,
@@ -190,6 +259,11 @@ extension View {
 				condition: condition))
 	}
 
+	/// Plays the specified audio when `trigger` changes and the `condition` closure returns `true`.
+	/// - Parameters:
+	///   - feedback: The feedback to play.
+	///   - trigger: The value to monitor for changes.
+	///   - condition: A closure to determine whether to play the feedback when `trigger` changes.
 	public func audioFeedback<Value: Equatable>(
 		_ feedback: AudioFeedback,
 		trigger: Value,
@@ -208,6 +282,10 @@ extension View {
 
 
 extension View {
+	/// Plays the specifed `AudioFeedback` returned from the `feedback` closure when `trigger` changes or nothing when `nil` is returned.
+	/// - Parameters:
+	///   - trigger: The value to monitor for changes.
+	///   - feedback: A closure to determine whether to play feedback and the feedback to play when `trigger` changes.
 	public func audioFeedback<Value: Equatable>(
 		trigger: Value,
 		_ feedback: @escaping (_ oldValue: Value, _ newValue: Value) -> AudioFeedback?)
@@ -218,6 +296,11 @@ extension View {
 				feedback: feedback))
 	}
 
+
+	/// Plays the specifed `AudioFeedback` returned from the `feedback` closure when `trigger` changes or nothing when `nil` is returned.
+	/// - Parameters:
+	///   - trigger: The value to monitor for changes.
+	///   - feedback: A closure to determine whether to play the feedback and the feedback to play when `trigger` changes.
 	public func audioFeedback<Value: Equatable>(
 		trigger: Value,
 		_ feedback: @escaping () -> AudioFeedback?)

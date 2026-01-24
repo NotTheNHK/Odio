@@ -7,11 +7,13 @@
 
 import AVFoundation
 
-/// Creates an `AVAudioPlayer` from the contents of a file.
+/// Creates an `AVAudioPlayer` from the specified contents of an audio file.
 /// - Parameters:
-///   - name: The name of the audio file.
-///   - bundle: The bundle to retrieve the file from.
-/// - Returns: An instance of `AVAudioPlayer` with the contents of the file, if an error occured `nil`.
+///   - name: The name of the file.
+///   - `extension`: The extension of the file to locate.
+///   - subpath: The path of a top-level bundle directory.
+///   - bundle: The bundle containing the file.
+/// - Returns: An instance of `AVAudioPlayer` with the contents of the specified file, or `nil` if an error occured.
 func makeAVAudioPlayer(
 	forResource name: String,
 	withExtension `extension`: String? = nil,
@@ -36,10 +38,10 @@ func makeAVAudioPlayer(
 	}
 }
 
-/// Creates an `AVAudioPlayer` from audio data.
+/// Creates an `AVAudioPlayer` from the specified audio data.
 /// - Parameters:
-/// 	- data: The audio data to play.
-/// - Returns: An instance of `AVAudioPlayer` with the contents of the provided data, if an error occured `nil`.
+/// 	- data: The data to create the audio player from.
+/// - Returns: An instance of `AVAudioPlayer` with the contents of the specified data, or `nil` if an error occured.
 func makeAVAudioPlayer(data: Data?) -> AVAudioPlayer? {
 	do {
 		guard
