@@ -28,12 +28,12 @@ public struct OdioPlayer {
 	///   - repeatMode: The playback repeat mode to use.
 	///   - bundle: The bundle to retrieve the file from.
 	public init(
-		for filename: String,
+		_ filename: String,
 		from bundle: Bundle = .main,
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never) {
-			self.player = makeAVAudioPlayer(name: filename, bundle: bundle)
+			self.player = makeAVAudioPlayer(forResource: filename, from: bundle)
 			self.speed = speed
 			self.delay = delay
 			self.repeatMode = repeatMode
@@ -45,7 +45,7 @@ public struct OdioPlayer {
 	///   - delay: The time in seconds before playback occurs.
 	///   - repeatMode: The playback repeat mode to use.
 	public init(
-		data: Data?,
+		_ data: Data?,
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never) {

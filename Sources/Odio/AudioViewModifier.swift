@@ -25,7 +25,7 @@ struct AudioOnTap: ViewModifier {
 			.onChangeCompatible(of: data, initial: true) {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
-					data: data,
+					data,
 					at: configuration.speed,
 					after: configuration.delay,
 					repeatMode: configuration.repeatMode)
@@ -57,7 +57,7 @@ struct AudioOnChange<Value: Equatable>: ViewModifier {
 			.onChangeCompatible(of: data, initial: true) {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
-					data: data,
+					data,
 					at: configuration.speed,
 					after: configuration.delay,
 					repeatMode: configuration.repeatMode)
@@ -94,7 +94,7 @@ struct AudioConditionally<Value: Equatable>: ViewModifier {
 			.onChangeCompatible(of: data, initial: true) {
 				audioPlayer.end()
 				audioPlayer = OdioPlayer(
-					data: data,
+					data,
 					at: configuration.speed,
 					after: configuration.delay,
 					repeatMode: configuration.repeatMode)

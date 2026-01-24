@@ -82,7 +82,7 @@ public struct AudioPlayer: DynamicProperty {
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never) {
 			self.player = .init(
-				for: filename,
+				filename,
 				from: bundle,
 				at: speed,
 				after: delay,
@@ -95,7 +95,7 @@ public struct AudioPlayer: DynamicProperty {
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never) {
 			self.player = .init(
-				data: data,
+				data,
 				at: speed,
 				after: delay,
 				repeatMode: repeatMode)
