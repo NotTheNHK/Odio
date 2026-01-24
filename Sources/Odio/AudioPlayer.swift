@@ -81,7 +81,7 @@ public struct AudioPlayer: DynamicProperty {
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never) {
-			self.player = .init(
+			self.player = OdioPlayer(
 				filename,
 				from: bundle,
 				at: speed,
@@ -94,7 +94,7 @@ public struct AudioPlayer: DynamicProperty {
 		at speed: Float = 1,
 		after delay: TimeInterval = 0,
 		repeatMode: RepeatMode = .never) {
-			self.player = .init(
+			self.player = OdioPlayer(
 				data,
 				at: speed,
 				after: delay,
@@ -103,9 +103,9 @@ public struct AudioPlayer: DynamicProperty {
 
 	public init(
 		_ feedback: AudioFeedback) {
-			self.player = .init(feedback)
+			self.player = OdioPlayer(feedback)
 		}
 
 	/// Creates an empty `@AudioPlayer` instance.
-	public init() { player = .init() }
+	public init() { player = OdioPlayer() }
 }

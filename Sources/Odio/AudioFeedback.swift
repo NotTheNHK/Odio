@@ -19,7 +19,7 @@ public struct AudioFeedback: Equatable {
 		repeatMode: RepeatMode = .never)
 	throws {
 		self.data = try Data(forResource: filename)
-		self.configuration = .init(
+		self.configuration = AudioConfiguration(
 			speed: speed,
 			delay: delay,
 			repeatMode: repeatMode)
@@ -36,7 +36,7 @@ public struct AudioFeedback: Equatable {
 		else { throw OdioError(errorDescription: "Nil") }
 
 		self.data = data
-		self.configuration = .init(
+		self.configuration = AudioConfiguration(
 			speed: speed,
 			delay: delay,
 			repeatMode: repeatMode)

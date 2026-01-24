@@ -17,7 +17,7 @@ extension View {
 		modifier(
 			AudioOnTap(
 				data: try? Data(forResource: filename),
-				configuration: .init(
+				configuration: AudioConfiguration(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode)))
@@ -32,7 +32,7 @@ extension View {
 		modifier(
 			AudioOnTap(
 				data: data,
-				configuration: .init(
+				configuration: AudioConfiguration(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode)))
@@ -59,7 +59,7 @@ extension View {
 		modifier(
 			AudioOnChange(
 				data: try? Data(forResource: filename),
-				configuration: .init(
+				configuration: AudioConfiguration(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
@@ -76,7 +76,7 @@ extension View {
 		modifier(
 			AudioOnChange(
 				data: data,
-				configuration: .init(
+				configuration: AudioConfiguration(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
@@ -108,7 +108,7 @@ extension View {
 		modifier(
 			AudioConditionally(
 				data: try? Data(forResource: filename),
-				configuration: .init(
+				configuration: AudioConfiguration(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
@@ -127,7 +127,7 @@ extension View {
 		modifier(
 			AudioConditionally(
 				data: try? Data(forResource: filename),
-				configuration: .init(
+				configuration: AudioConfiguration(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
@@ -148,7 +148,7 @@ extension View {
 		modifier(
 			AudioConditionally(
 				data: data,
-				configuration: .init(
+				configuration: AudioConfiguration(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
@@ -167,7 +167,7 @@ extension View {
 		modifier(
 			AudioConditionally(
 				data: data,
-				configuration: .init(
+				configuration: AudioConfiguration(
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
