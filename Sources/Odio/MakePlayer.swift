@@ -46,7 +46,7 @@ func makeAVAudioPlayer(data: Data?) -> AVAudioPlayer? {
 	do {
 		guard
 			let data
-		else { throw OdioError(errorDescription: "Parameter `data` was nil") }
+		else { throw OdioError(errorDescription: "Parameter `data` is nil") }
 
 		let player = try AVAudioPlayer(data: data)
 

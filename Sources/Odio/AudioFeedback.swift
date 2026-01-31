@@ -45,7 +45,7 @@ public struct AudioFeedback: Equatable {
 	throws {
 		guard
 			let data
-		else { throw OdioError(errorDescription: "Parameter `data` was nil") }
+		else { throw OdioError(errorDescription: "Parameter `data` is nil") }
 
 		self.data = data
 		self.configuration = AudioConfiguration(
