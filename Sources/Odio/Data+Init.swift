@@ -20,7 +20,10 @@ extension Data {
 					forResource: name,
 					withExtension: `extension`,
 					subdirectory: subpath)
-			else { throw OdioError(errorDescription: "Resource not found: \(name).\(`extension` ?? "")") }
+			else {
+				throw OdioError(
+					errorDescription: "Resource not found: \(name).\(`extension` ?? "")")
+			}
 
 			self = try Data(contentsOf: url)
 		} catch {
