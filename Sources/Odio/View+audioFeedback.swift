@@ -22,8 +22,9 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnTap(
-				data: try? Data(forResource: filename),
-				configuration: AudioConfiguration(
+				audioFeedback: AudioFeedback(
+					filename: filename,
+					bundle: .main,
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode)))
@@ -43,8 +44,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnTap(
-				data: data,
-				configuration: AudioConfiguration(
+				audioFeedback: AudioFeedback(
+					data: data,
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode)))
@@ -54,10 +55,7 @@ extension View {
 	/// - Parameter feedback: The feedback to play.
 	public func audioFeedback(_ feedback: AudioFeedback) -> some View {
 		modifier(
-			AudioOnTap(
-				data: feedback.data,
-				configuration: feedback.configuration))
-
+			AudioOnTap(audioFeedback: feedback))
 	}
 }
 

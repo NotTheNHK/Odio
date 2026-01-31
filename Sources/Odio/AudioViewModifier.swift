@@ -11,8 +11,7 @@ struct AudioOnTap: ViewModifier {
 	@AudioPlayer
 	private var audioPlayer
 
-	let data: Data?
-	let configuration: AudioConfiguration
+	let audioFeedback: AudioFeedback
 
 	func body(content: Content) -> some View {
 		content
@@ -22,16 +21,12 @@ struct AudioOnTap: ViewModifier {
 						audioPlayer.rewind()
 						audioPlayer()
 					})
-			.onChangeCompatible(of: data, initial: true) {
+			.onChangeCompatible(of: audioFeedback.data, initial: true) {
 				audioPlayer.end()
-				audioPlayer = OdioPlayer(
-					data,
-					at: configuration.speed,
-					after: configuration.delay,
-					repeatMode: configuration.repeatMode)
+				audioPlayer = OdioPlayer(audioFeedback)
 			}
-			.onChangeCompatible(of: configuration) {
-				audioPlayer.update(with: configuration)
+			.onChangeCompatible(of: audioFeedback.configuration) {
+				audioPlayer.update(with: audioFeedback.configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()

@@ -54,9 +54,55 @@ public struct AudioFeedback: Equatable {
 			repeatMode: repeatMode)
 	}
 
-	// internal initializer. Creates an "empty" instance.
-	init() {
-		self.data = Data()
-		self.configuration = AudioConfiguration()
-	}
+	/// internal initializer. Creates an "empty" instance.
+	/// - Parameters:
+	///   - filename: The name of an audio file.
+	///   - bundle: The bundle to retrieve the file from.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
+	init(
+		filename: String,
+		bundle: Bundle,
+		speed: Float,
+		delay: TimeInterval,
+		repeatMode: RepeatMode) {
+			do {
+				self.data = try Data(forResource: filename, from: bundle)
+				self.configuration = AudioConfiguration(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode)
+			} catch {
+				self.data = Data()
+				self.configuration = AudioConfiguration()
+			}
+		}
+
+	/// internal initializer. Creates an "empty" instance.
+	/// - Parameters:
+	///   - data: The audio data to play.
+	///   - speed: The speed at which playback occurs.
+	///   - delay: The time in seconds before playback occurs.
+	///   - repeatMode: The playback repeat mode to use.
+	init(
+		data: Data?,
+		speed: Float,
+		delay: TimeInterval,
+		repeatMode: RepeatMode) {
+			do {
+				guard
+					let data
+				else { throw OdioError(errorDescription: "Parameter 'data' is nil")}
+
+				self.data = data
+				self.configuration = AudioConfiguration(
+					speed: speed,
+					delay: delay,
+					repeatMode: repeatMode)
+			} catch {
+				self.data = Data()
+				self.configuration = AudioConfiguration()
+			}
+		}
 }
