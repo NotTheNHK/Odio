@@ -30,4 +30,11 @@ public struct AudioConfiguration: Equatable {
 			self.delay = delay
 			self.repeatMode = repeatMode
 		}
+
+	/// internal initializer. Creates an "empty" instance.
+	init() {
+		self.speed = 0
+		self.delay = 0
+		self.repeatMode = .never
+	}
 }

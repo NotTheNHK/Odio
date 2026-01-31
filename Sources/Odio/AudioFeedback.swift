@@ -45,12 +45,18 @@ public struct AudioFeedback: Equatable {
 	throws {
 		guard
 			let data
-		else { throw OdioError(errorDescription: "Nil") }
+		else { throw OdioError(errorDescription: "Parameter `data` was nil") }
 
 		self.data = data
 		self.configuration = AudioConfiguration(
 			speed: speed,
 			delay: delay,
 			repeatMode: repeatMode)
+	}
+
+	// internal initializer. Creates an "empty" instance.
+	init() {
+		self.data = Data()
+		self.configuration = AudioConfiguration()
 	}
 }
