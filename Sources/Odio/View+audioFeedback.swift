@@ -77,8 +77,9 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				data: try? Data(forResource: filename),
-				configuration: AudioConfiguration(
+				audioFeedback: AudioFeedback(
+					filename: filename,
+					bundle: .main,
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
@@ -101,8 +102,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				data: data,
-				configuration: AudioConfiguration(
+				audioFeedback: AudioFeedback(
+					data: data,
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
@@ -119,8 +120,7 @@ extension View {
 	-> some View {
 		modifier(
 			AudioOnChange(
-				data: feedback.data,
-				configuration: feedback.configuration,
+				audioFeedback: feedback,
 				value: trigger))
 	}
 }
@@ -145,8 +145,9 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				data: try? Data(forResource: filename),
-				configuration: AudioConfiguration(
+				audioFeedback: AudioFeedback(
+					filename: filename,
+					bundle: .main,
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
@@ -172,13 +173,15 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				data: try? Data(forResource: filename),
-				configuration: AudioConfiguration(
+				audioFeedback: AudioFeedback(
+					filename: filename,
+					bundle: .main,
 					speed: speed,
 					delay: delay,
-					repeatMode: repeatMode),
+					repeatMode: repeatMode
+				),
 				value: trigger,
-				condition: { _, _ in
+				condition: { _,_ in
 					condition()
 				}))
 	}
@@ -201,8 +204,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				data: data,
-				configuration: AudioConfiguration(
+				audioFeedback: AudioFeedback(
+					data: data,
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
@@ -228,8 +231,8 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				data: data,
-				configuration: AudioConfiguration(
+				audioFeedback: AudioFeedback(
+					data: data,
 					speed: speed,
 					delay: delay,
 					repeatMode: repeatMode),
@@ -251,8 +254,7 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				data: feedback.data,
-				configuration: feedback.configuration,
+				audioFeedback: feedback,
 				value: trigger,
 				condition: condition))
 	}
@@ -269,8 +271,7 @@ extension View {
 	-> some View {
 		modifier(
 			AudioConditionally(
-				data: feedback.data,
-				configuration: feedback.configuration,
+				audioFeedback: feedback,
 				value: trigger,
 				condition: { _, _ in
 					condition()

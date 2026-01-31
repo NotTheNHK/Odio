@@ -39,8 +39,7 @@ struct AudioOnChange<Value: Equatable>: ViewModifier {
 	@AudioPlayer
 	private var audioPlayer
 
-	let data: Data?
-	let configuration: AudioConfiguration
+	let audioFeedback: AudioFeedback
 	let value: Value
 
 	func body(content: Content) -> some View {
@@ -49,16 +48,12 @@ struct AudioOnChange<Value: Equatable>: ViewModifier {
 				audioPlayer.rewind()
 				audioPlayer()
 			}
-			.onChangeCompatible(of: data, initial: true) {
+			.onChangeCompatible(of: audioFeedback.data, initial: true) {
 				audioPlayer.end()
-				audioPlayer = OdioPlayer(
-					data,
-					at: configuration.speed,
-					after: configuration.delay,
-					repeatMode: configuration.repeatMode)
+				audioPlayer = OdioPlayer(audioFeedback)
 			}
-			.onChangeCompatible(of: configuration) {
-				audioPlayer.update(with: configuration)
+			.onChangeCompatible(of: audioFeedback.configuration) {
+				audioPlayer.update(with: audioFeedback.configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()
@@ -71,8 +66,7 @@ struct AudioConditionally<Value: Equatable>: ViewModifier {
 	@AudioPlayer
 	private var audioPlayer
 
-	let data: Data?
-	let configuration: AudioConfiguration
+	let audioFeedback: AudioFeedback
 	let value: Value
 	let condition: (Value, Value) -> Bool
 
@@ -86,16 +80,12 @@ struct AudioConditionally<Value: Equatable>: ViewModifier {
 				audioPlayer.rewind()
 				audioPlayer()
 			}
-			.onChangeCompatible(of: data, initial: true) {
+			.onChangeCompatible(of: audioFeedback.data, initial: true) {
 				audioPlayer.end()
-				audioPlayer = OdioPlayer(
-					data,
-					at: configuration.speed,
-					after: configuration.delay,
-					repeatMode: configuration.repeatMode)
+				audioPlayer = OdioPlayer(audioFeedback)
 			}
-			.onChangeCompatible(of: configuration) {
-				audioPlayer.update(with: configuration)
+			.onChangeCompatible(of: audioFeedback.configuration) {
+				audioPlayer.update(with: audioFeedback.configuration)
 			}
 			.onDisappear {
 				audioPlayer.end()
